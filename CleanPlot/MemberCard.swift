@@ -9,24 +9,23 @@ import SwiftUI
 
 
 struct MemberCard: View {
-    var item: CardItem
+    var item: MemberModel
     
     var body: some View {
         
         HStack{
-            //pp
-            Image(item.pp)
+            
+            Image(item.imagePath)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width:50, height:50)
                 .clipShape(Circle())
             
-            //nama & no.hp
             VStack{
-                Text(item.nama)
+                Text(item.name)
                     .font(.headline)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text("\(item.noHP)")
+                Text("\(item.phone)")
                     .font(.system(size: 10))
                     .font(.subheadline)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -39,5 +38,5 @@ struct MemberCard: View {
 }
 
 #Preview {
-    MemberCard(item: CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"))
+    MemberCard(item: MemberModel(imagePath: "ProfilePicture", name: "Endang", phone: "+628578483827", address: "Bandung"))
 }

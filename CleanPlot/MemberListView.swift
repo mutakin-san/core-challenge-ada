@@ -9,26 +9,11 @@ import SwiftUI
 
 struct MemberListView: View {
     
-    let items: [CardItem] = [
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture"),
-        CardItem(nama: "Endang", noHP: +627839201938, pp: "ProfilePicture")
-    ]
+    @Binding var members: [MemberModel]
     
     var body: some View {
         NavigationStack {
-            List (items) { item in
+            List (members, id: \.id) { item in
                 MemberCard(item: item)
             }
             .listRowSpacing(10)
@@ -38,5 +23,6 @@ struct MemberListView: View {
 }
 
 #Preview {
-    MemberListView()
+    @Previewable @State var members: [MemberModel] = []
+    MemberListView(members: $members)
 }

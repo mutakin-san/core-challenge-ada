@@ -9,13 +9,14 @@ import UIKit
 
 struct AddMemberView: View {
     @Binding var isSheetPresented: Bool
+    @Binding var members: [MemberModel]
 
     @State private var name = ""
     @State private var address = ""
     @State private var phoneNumber = ""
     @State private var showImagePicker = false
     @State private var selectedImage: UIImage? = nil
-    
+    @State private var showSuccessMessage: Bool = false
     
     var body: some View {
         VStack {
@@ -32,8 +33,16 @@ struct AddMemberView: View {
                     .padding()
                 
                 Button("Save") {
-                    isSheetPresented = false
+                    members.append(MemberModel(imagePath: "ProfilePicture", name: name, phone: phoneNumber, address: address))
+                    showSuccessMessage = true
                 }
+                .alert("Success", isPresented: $showSuccessMessage, actions: {
+                    Button("Ok"){
+                        isSheetPresented = false
+                    }
+                }, message: {
+                    Text("Member Successfully Saved!")
+                })
                 .padding(.trailing)
             }
             .frame(maxHeight: 30)
@@ -77,14 +86,12 @@ struct AddMemberView: View {
             List {
                 Section {
                     TextField("Name", text: $name)
-                        .foregroundColor(.white)
+                        
                     
                     TextField("Phone Number", text: $phoneNumber)
-                        .foregroundColor(.white)
                         .keyboardType(.numberPad)
                     
                     TextField("Address", text: $address)
-                        .foregroundColor(.white)
                 }
                 .listRowBackground(Color.secondary.opacity(0.1))
             }

@@ -7,14 +7,10 @@
 
 import SwiftUI
 
-struct Member {
-    var name: String
-    var shiftTime: String
-    var area: String
-}
 
 struct MemberView : View {
     @State private var isSheetPresented = false
+    @State private var members: [MemberModel] = []
 
     
     var body: some View {
@@ -30,10 +26,10 @@ struct MemberView : View {
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
                 .sheet(isPresented: $isSheetPresented) {
-                    AddMemberView(isSheetPresented: $isSheetPresented)
+                    AddMemberView(isSheetPresented: $isSheetPresented, members: $members)
                 }
                 
-                MemberListView()
+                MemberListView(members: $members)
                 
                 
             }
