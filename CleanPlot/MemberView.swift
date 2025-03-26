@@ -14,19 +14,23 @@ struct Member {
 }
 
 struct MemberView : View {
-    
+    @State private var isSheetPresented = false
+
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 10) {
                 Button {
-                    
+                    isSheetPresented = true
                 } label: {
                     Label("Tambah Member", systemImage: "plus.square.dashed")
                         .frame(maxWidth: .infinity, maxHeight: 64)
                 }
                 .labelStyle(.iconOnly)
                 .buttonStyle(.borderedProminent)
+                .sheet(isPresented: $isSheetPresented) {
+                    AddMemberView(isSheetPresented: $isSheetPresented)
+                }
                 
                 MemberListView()
                 
