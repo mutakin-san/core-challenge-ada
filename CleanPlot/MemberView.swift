@@ -19,15 +19,16 @@ struct MemberView : View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 10) {
+            VStack {
                 Button {
                     isSheetPresented = true
                 } label: {
                     Label("Tambah Member", systemImage: "plus.square.dashed")
-                        .frame(maxWidth: .infinity, maxHeight: 64)
+                        .frame(maxWidth: .infinity)
                 }
-                .labelStyle(.iconOnly)
+                .padding()
                 .buttonStyle(.borderedProminent)
+                .controlSize(.large)
                 .sheet(isPresented: $isSheetPresented) {
                     AddMemberView(isSheetPresented: $isSheetPresented)
                 }
@@ -37,15 +38,6 @@ struct MemberView : View {
                 
             }
             .navigationTitle("Member")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Image(systemName: "ellipsis.circle")
-                        .foregroundColor(Color.blue)
-                }
-                
-            }
-            .padding()
         }
     }
 }

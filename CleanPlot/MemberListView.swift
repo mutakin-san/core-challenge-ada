@@ -29,14 +29,9 @@ struct MemberListView: View {
     var body: some View {
         NavigationStack {
             List (items) { item in
-                NavigationLink{
-                    
-                } label: {
-                    MemberCard(item: item)
-                }
+                MemberCard(item: item)
             }
             .listRowSpacing(10)
-            .listStyle(.plain)
         }
     }
     
