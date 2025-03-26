@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MemberListView: View {
     
-    @Binding var members: [MemberModel]
+    @Binding var members: [Member]
     
     var body: some View {
         NavigationStack {
@@ -23,6 +23,6 @@ struct MemberListView: View {
 }
 
 #Preview {
-    @Previewable @State var members: [MemberModel] = []
+    @Previewable @State var members: [Member] = []
     MemberListView(members: $members)
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MemberView : View {
     @State private var isSheetPresented = false
-    @State private var members: [MemberModel] = []
+    @State private var members: [Member] = []
 
     
     var body: some View {

@@ -9,7 +9,7 @@ import UIKit
 
 struct AddMemberView: View {
     @Binding var isSheetPresented: Bool
-    @Binding var members: [MemberModel]
+    @Binding var members: [Member]
 
     @State private var name = ""
     @State private var address = ""
@@ -33,7 +33,7 @@ struct AddMemberView: View {
                     .padding()
                 
                 Button("Save") {
-                    members.append(MemberModel(imagePath: "ProfilePicture", name: name, phone: phoneNumber, address: address))
+                    members.append(Member(imagePath: "ProfilePicture", name: name, phone: phoneNumber, address: address))
                     showSuccessMessage = true
                 }
                 .alert("Success", isPresented: $showSuccessMessage, actions: {

@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct MemberCard: View {
-    var item: MemberModel
+    var item: Member
     
     var body: some View {
         
@@ -38,5 +38,5 @@ struct MemberCard: View {
 }
 
 #Preview {
-    MemberCard(item: MemberModel(imagePath: "ProfilePicture", name: "Endang", phone: "+628578483827", address: "Bandung"))
+    MemberCard(item: Member(imagePath: "ProfilePicture", name: "Endang", phone: "+628578483827", address: "Bandung"))
 }
