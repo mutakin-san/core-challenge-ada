@@ -35,7 +35,7 @@ struct DetailHistory: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding([.leading, .top])){
                         ForEach(schedule.assignments.filter({ assignment in
-                            assignment.shiftType == ShiftType.morning
+                            assignment.shiftType == ShiftType.afternoon
                         })) {item in
                             ListMemberDetailHistory(item: item)
                         }
