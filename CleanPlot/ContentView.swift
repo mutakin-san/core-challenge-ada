@@ -17,7 +17,7 @@ struct ContentView: View {
                 MemberView()
             }
             Tab("History", systemImage: "clock") {
-                Text("Hello World")
+                HistoryView()
             }
         }
     }
