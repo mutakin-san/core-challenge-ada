@@ -7,71 +7,69 @@
 
 
 import SwiftUI
+import SwiftData
 
 struct GenerateScheduleView: View {
-    @State var noSchedule: Bool = false
     
-    func generate() {
-        noSchedule.toggle()
+    @Query var schedules: [Schedule]
+    @Query var members: [Member]
+    @Environment(\.modelContext) var modelContext
+    var currentSchedule: Schedule? {
+        schedules.last
     }
+    
+    var currentScheduleAssignments: [AssignmentRecord] {
+        currentSchedule?.assignments.sorted(by: {
+            $0.shiftType.description < $1.shiftType.description
+        }) ?? []
+    }
+
+    let areas = [
+            "SML", "GOP 6", "GOP 1", "Gardu", "GOP 9",
+            "Gate 1", "Gate 2", "Marketing", "Pucuk Merah",
+            "Parkiran", "GOP 5", "Green Bell",
+            "Sampah Ganging", "Mobile", "Mobile"
+        ]
+    
     var body: some View {
         NavigationStack {
             VStack {
+                VStack(alignment: .center) {
+                    
+                    Text("Halo, Subur!")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading)
+                        .padding(.top)
+                        .font(.title)
+                        .fontWeight(.bold)
+                    
+                    Text("Buat Jadwal Tim Anda Sekarang!")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading)
+                        .font(.subheadline)
+                    
                 
-                if noSchedule {
-                    
-                    VStack(alignment: .leading) {
+                    if(currentSchedule == nil) {
+                        VStack(alignment: .center) {
+                            Spacer()
+                            Text("Tidak ada jadwal")
+                                .foregroundColor(.gray)
+                            Spacer()
+                        }
                         
-                        Text("Halo, Subur!")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading)
-                            .padding(.top)
-                            .font(.title)
-                            .fontWeight(.bold)
-                        
-                        Text("Let's create the schedule for your team")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading)
-                            .font(.subheadline)
-                    }
-                    Spacer()
-                    
-                    Text("Tidak ada jadwal")
-                        .foregroundColor(.gray)
-                    
-                    Spacer()
-                    
-                }
-                
-                else {
-                    
-                    VStack(alignment: .leading) {
-                        
-                        Text("Halo, Subur!")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading)
-                            .padding(.top)
-                            .font(.title)
-                            .fontWeight(.bold)
-                        
-                        Text("Let's create the schedule for your team")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading)
-                            .font(.subheadline)
-                        
-                        
+                    } else {
                         HStack {
-                            Text("17 - 30 Maret 2025")
+                            Text(currentSchedule?.scheduleId ?? "Unknown")
                             
                             Spacer()
                             
                             ShareLink(item: /*@START_MENU_TOKEN@*/URL(string: "https://developer.apple.com/xcode/swiftui")!/*@END_MENU_TOKEN@*/)
+                                .labelStyle(.iconOnly)
                         }
                         .padding()
                         
                         
-                        List([1,2,3,4,5,6,7,8,9,10], id: \.self) {
-                            item in
+                        List(currentScheduleAssignments) { assignment in
                             
                             HStack {
                                 Image(.manPicture)
@@ -82,13 +80,13 @@ struct GenerateScheduleView: View {
                                 
                                 VStack(alignment: .leading) {
                                     HStack {
-                                        Text("Ole Romeny")
+                                        Text(assignment.memberName)
                                         
                                         Spacer()
-                                        Text("SML")
+                                        Text(assignment.area)
                                         
                                     }
-                                    Text("Shift Pagi")
+                                    Text(assignment.shiftType.description)
                                         .font(.caption)
                                     
                                 }
@@ -96,34 +94,49 @@ struct GenerateScheduleView: View {
                             
                         }
                         .listRowSpacing(10)
-                        
                     }
-                    Spacer()
-                    Spacer()
+                    
+                    
                     
                 }
-                
-                Button(action: generate) {
-                    ZStack {
-                        Rectangle()
-                            .frame(height: 55.0)
-                            .padding()
-                            .foregroundStyle(.blue)
-                        Text("Generate")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .padding()
-                        
-                    }
-                }
+                Spacer()
+                Spacer()
                 
             }
+            
+            Button(action: {
+                generateSchedule()
+            }) {
+                ZStack {
+                    Rectangle()
+                        .frame(height: 55.0)
+                        .padding()
+                        .foregroundStyle(.blue)
+                    Text("Generate")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding()
+                    
+                }
+            }
+            
+            
         }
+    }
+    
+    
+    func generateSchedule() {
+        let scheduler = FlexibleScheduler(members: members, areas: areas, modelContext: modelContext)
+        // Generate schedule
+        scheduler.generateSchedule()
+        
+        print(schedules)
+        
     }
 }
 
 
 #Preview {
-    GenerateScheduleView(noSchedule: false)
+    GenerateScheduleView()
 }

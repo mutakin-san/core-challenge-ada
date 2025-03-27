@@ -33,7 +33,7 @@ class FlexibleScheduler {
         startDate: Date = Date(), 
         numberOfAssignments: Int? = nil,
         customRules: SchedulingRules? = nil
-    ) -> [Assignment] {
+    ) -> Schedule {
         // Use custom rules if provided, otherwise use default
         let activeRules = customRules ?? rules
         
@@ -98,9 +98,7 @@ class FlexibleScheduler {
         }
         
         // Save assignments to history
-        saveAssignments(assignments)
-        
-        return assignments
+        return saveSchedule(scheduleId: scheduleId, assignments: assignments)
     }
     
     // Find the best assignment considering multiple constraints
@@ -247,22 +245,28 @@ class FlexibleScheduler {
     }
     
     // Save assignments to database
-    private func saveAssignments(_ assignments: [Assignment]) {
-        for assignment in assignments {
-            let record = AssignmentRecord(
+    private func saveSchedule(scheduleId: String, assignments: [Assignment]) -> Schedule {
+        let assignmentRecords: [AssignmentRecord] = assignments.map { assignment in
+            AssignmentRecord(
                 memberName: assignment.member, 
                 area: assignment.area, 
                 scheduleId: assignment.scheduleId, 
                 date: assignment.date,
                 shiftType: assignment.shiftType
             )
-            modelContext.insert(record)
         }
         
+        let schedule = Schedule(scheduleId: scheduleId)
+        schedule.assignments.append(contentsOf: assignmentRecords)
+        modelContext.insert(schedule)
+
         do {
             try modelContext.save()
         } catch {
             print("Error saving assignments: \(error)")
         }
+        
+        return schedule
+        
     }
 }
