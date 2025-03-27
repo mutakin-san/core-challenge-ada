@@ -11,7 +11,7 @@ struct ContentView: View {
     var body: some View {
         TabView {
             Tab("Generate", systemImage: "wand.and.rays") {
-                Text("Hello World")
+                GenerateScheduleView()
             }
             Tab("Member", systemImage: "person.2") {
                 MemberView()
