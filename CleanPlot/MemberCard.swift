@@ -32,7 +32,6 @@ struct MemberCard: View {
                     .foregroundColor(.gray)
             }
         }
-        .padding()
         
     }
 }

@@ -6,15 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MemberListView: View {
     
-    @Binding var members: [Member]
+    @Query var members: [Member]
     
     var body: some View {
         NavigationStack {
-            List (members, id: \.id) { item in
-                MemberCard(item: item)
+            List (members) { member in
+                MemberCard(item: member)
             }
             .listRowSpacing(10)
         }
@@ -23,6 +24,5 @@ struct MemberListView: View {
 }
 
 #Preview {
-    @Previewable @State var members: [Member] = []
-    MemberListView(members: $members)
+    MemberListView()
 }
