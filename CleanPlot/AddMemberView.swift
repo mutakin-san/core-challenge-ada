@@ -18,12 +18,14 @@ struct AddMemberView: View {
         member == nil ? "Add Photo" : "Edit Photo"
     }
     
+    
     @State private var name = ""
     @State private var address = ""
     @State private var phoneNumber = ""
     @State private var showImagePicker = false
     @State private var selectedImage: UIImage? = nil
     @State private var showSuccessMessage: Bool = false
+    @State private var showAlert: Bool = false
     
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -100,9 +102,17 @@ struct AddMemberView: View {
                     Button("Save") {
                         withAnimation {
                             save()
-                            dismiss()
                         }
                     }
+                    .alert("Gagal", isPresented: $showAlert) {
+                        Button("Ok") {
+                            showAlert = false
+                        }
+                    } message: {
+                        Text("Silahkan isi semua data!")
+                    }
+                    
+                    
                 }
             }
             .onAppear {
@@ -118,6 +128,10 @@ struct AddMemberView: View {
     
     
     private func save() {
+        if(name.isEmpty || phoneNumber.isEmpty || address.isEmpty) {
+            showAlert = true
+            return
+        }
         if let member {
             member.name = name
             member.phone = phoneNumber
@@ -127,6 +141,8 @@ struct AddMemberView: View {
             
             modelContext.insert(newMember)
         }
+        dismiss()
+        
     }
 }
 
