@@ -13,7 +13,7 @@ struct CleanPlotApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Member.self,
-            AssignmentRecord.self
+            Schedule.self
         ])
         
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)

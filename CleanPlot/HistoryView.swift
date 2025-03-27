@@ -7,8 +7,11 @@
 
 
 import SwiftUI
+import SwiftData
 
 struct HistoryView: View {
+    @Query var schedules: [Schedule]
+    
     var body: some View {
         NavigationStack {
             VStack(alignment:.leading) {
@@ -20,24 +23,23 @@ struct HistoryView: View {
                     .fontWeight(.bold)
                 Spacer()
                 
-                    List([1,2,3,4,5,6,7,8,9,10], id: \.self) {
-                        item in
+                List(schedules) {
+                    schedule in
+                    
+                    
+                    NavigationLink {
                         
-                
-                        NavigationLink {
-                         
-                        } label: {
-                            
-                            
-                            HStack {
-                                Text("17 Maret - 30 Maret")
-                                Spacer()
-                                
-                                
-                            }
-                        }
+                    } label: {
+                        
+                        
+                        Text(schedule.scheduleId)
+                        
+                        
+                        
+                        
                     }
-
+                }
+                
             }
         }
     }
