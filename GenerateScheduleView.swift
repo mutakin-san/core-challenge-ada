@@ -1,10 +1,9 @@
 //
 //  GenerateScheduleView.swift
-//  CleanPlot
+//  HomePage
 //
 //  Created by Zaidan Akmal on 27/03/25.
 //
-
 
 import SwiftUI
 
