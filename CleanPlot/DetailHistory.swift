@@ -32,34 +32,40 @@ struct DetailHistory: View {
     
     var body: some View {
         NavigationView{
-            ScrollView {
-                VStack {
-                    Section(header: Text("Shift Pagi 06.00 - 15.00 WIB")
-                        .font(.system(size: 12))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding([.leading, .top])){
-                            ForEach(items) {item in
-                                ListMemberDetailHistory(item: item)
-                            }
+            List {
+                Section(header: Text("Shift Pagi 06.00 - 15.00 WIB")
+                    .font(.system(size: 12))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding([.leading, .top])){
+                        ForEach(items) {item in
+                            ListMemberDetailHistory(item: item)
                         }
-                    Section(header: Text("Shift Siang 08.00 - 17.00 WIB")
-                        .font(.system(size: 12))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding([.leading, .top])){
-                            ForEach(items) {item in
-                                ListMemberDetailHistory(item: item)
-                            }
+                    }
+                Section(header: Text("Shift Siang 08.00 - 17.00 WIB")
+                    .font(.system(size: 12))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding([.leading, .top])){
+                        ForEach(items) {item in
+                            ListMemberDetailHistory(item: item)
                         }
-                    
-                    
+                    }
+                
+            }
+            .listStyle(.plain)
+            .listRowSpacing(10)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Text("13 March - 30 March 2025")
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    ShareLink(item: "Itu",message: Text("Share Schedule"))
                 }
             }
             
             
             
             
-            
-        }.navigationTitle(Text("17 March - 30 March"))
+        }
         
         
         
