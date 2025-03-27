@@ -15,20 +15,7 @@ struct CardItem : Identifiable{
 }
 
 struct DetailHistory: View {
-    let items: [CardItem] = [
-        CardItem(pp: "FotoProfil", nama: "Endang", area: "SML"),
-        CardItem(pp: "FotoProfil", nama: "Endang", area: "SML"),
-        CardItem(pp: "FotoProfil", nama: "Endang", area: "SML"),
-        CardItem(pp: "FotoProfil", nama: "Endang", area: "SML"),
-        CardItem(pp: "FotoProfil", nama: "Endang", area: "SML"),
-        CardItem(pp: "FotoProfil", nama: "Endang", area: "SML"),
-        CardItem(pp: "FotoProfil", nama: "Endang", area: "SML"),
-        CardItem(pp: "FotoProfil", nama: "Endang", area: "SML"),
-        CardItem(pp: "FotoProfil", nama: "Endang", area: "SML"),
-        CardItem(pp: "FotoProfil", nama: "Endang", area: "SML"),
-    ]
-    
-    
+    let schedule: Schedule
     
     var body: some View {
         NavigationView{
@@ -37,7 +24,9 @@ struct DetailHistory: View {
                     .font(.system(size: 12))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding([.leading, .top])){
-                        ForEach(items) {item in
+                        ForEach(schedule.assignments.filter({ assignment in
+                            assignment.shiftType == ShiftType.morning
+                        })) {item in
                             ListMemberDetailHistory(item: item)
                         }
                     }
@@ -45,7 +34,9 @@ struct DetailHistory: View {
                     .font(.system(size: 12))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding([.leading, .top])){
-                        ForEach(items) {item in
+                        ForEach(schedule.assignments.filter({ assignment in
+                            assignment.shiftType == ShiftType.morning
+                        })) {item in
                             ListMemberDetailHistory(item: item)
                         }
                     }
@@ -55,7 +46,7 @@ struct DetailHistory: View {
             .listRowSpacing(10)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Text("13 March - 30 March 2025")
+                    Text(schedule.scheduleId)
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     ShareLink(item: "Itu",message: Text("Share Schedule"))
@@ -73,19 +64,20 @@ struct DetailHistory: View {
 }
 
 #Preview {
-    DetailHistory()
+    let schedule: Schedule = Schedule(scheduleId: "Schedule: 13 March")
+    DetailHistory(schedule: schedule)
 }
 
 struct ListMemberDetailHistory: View {
     
-    let item: CardItem
+    let item: AssignmentRecord
     
     var body: some View {
                 
                 GroupBox{
                     HStack{
                         //pp
-                        Image(item.pp)
+                        Image("ProfilePicture")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width:50, height:50)
@@ -94,7 +86,7 @@ struct ListMemberDetailHistory: View {
                         
                         //nama & no.hp
                         HStack{
-                            Text(item.nama)
+                            Text(item.memberName)
                                 .padding(.leading, 16)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             Spacer()

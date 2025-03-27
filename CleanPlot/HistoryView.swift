@@ -28,7 +28,7 @@ struct HistoryView: View {
                     
                     
                     NavigationLink {
-                        
+                        DetailHistory(schedule: schedule)
                     } label: {
                         
                         
