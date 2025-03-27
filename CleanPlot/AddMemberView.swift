@@ -6,11 +6,18 @@
 //
 import SwiftUI
 import UIKit
+import SwiftData
 
 struct AddMemberView: View {
-    @Binding var isSheetPresented: Bool
-    @Binding var members: [MemberModel]
-
+    
+    let member: Member?
+    private var editorTitle: String {
+        member == nil ? "Add Member" : "Edit Member"
+    }
+    private var photoTitle: String {
+        member == nil ? "Add Photo" : "Edit Photo"
+    }
+    
     @State private var name = ""
     @State private var address = ""
     @State private var phoneNumber = ""
@@ -18,86 +25,112 @@ struct AddMemberView: View {
     @State private var selectedImage: UIImage? = nil
     @State private var showSuccessMessage: Bool = false
     
+    @Environment(\.modelContext) var modelContext
+    @Environment(\.dismiss) private var dismiss
+    
+    
     var body: some View {
-        VStack {
-            //header
-            HStack {
-                Button("Cancel") {
-                    isSheetPresented = false
+        NavigationStack {
+            VStack {
+                if selectedImage != nil {
+                    Image(uiImage: selectedImage!)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: 100, maxHeight: 100)
+                        .clipShape(.circle)
+                } else {
+                    Image(systemName: "person.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .padding(20)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: 100, maxHeight: 100)
+                    
+                        .background(.gray)
+                        .clipShape(.circle)
+                    
                 }
-                .padding(.leading)
                 
-                Text("Add Member")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity, alignment: .top)
-                    .padding()
                 
-                Button("Save") {
-                    members.append(MemberModel(imagePath: "ProfilePicture", name: name, phone: phoneNumber, address: address))
-                    showSuccessMessage = true
+                Button(action: {
+                    showImagePicker = true
+                }) {
+                    Text(photoTitle)
+                        .bold()
+                        .foregroundColor(.blue)
+                        .frame(width: 150, height: 50)
+                        .background(Color.secondary.opacity(0.1))
+                        .clipShape(Capsule())
+                        .padding()
+                    
+                    
+                }.sheet(isPresented: $showImagePicker) {
+                    ImagePicker(image: $selectedImage)
                 }
-                .alert("Success", isPresented: $showSuccessMessage, actions: {
-                    Button("Ok"){
-                        isSheetPresented = false
-                    }
-                }, message: {
-                    Text("Member Successfully Saved!")
-                })
-                .padding(.trailing)
-            }
-            .frame(maxHeight: 30)
-            .padding(.top)
-            
-            //Profile Picture
-            ZStack {
-                Circle()
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(width: 180, height: 180)
-                
-                // White silhouette
-                
-                Image(systemName: "person.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(.white)
-                    .frame(width: 100, height: 100)
-            }
-            
-            Button(action: {
-                showImagePicker = true
-            }) {
-                Text("Add Photo")
-                    .bold()
-                    .foregroundColor(.blue)
-                    .frame(width: 150, height: 50)
-                    .background(Color.secondary.opacity(0.1))
-                    .clipShape(Capsule())
-                    .padding()
                 
                 
-            }.sheet(isPresented: $showImagePicker) {
-                ImagePicker(image: $selectedImage)
-            }
-            
-            
-            
-            
-            // Text input fields
-            List {
-                Section {
-                    TextField("Name", text: $name)
+                
+                
+                // Text input fields
+                Form {
+                    Section {
+                        TextField("Name", text: $name)
                         
-                    
-                    TextField("Phone Number", text: $phoneNumber)
-                        .keyboardType(.numberPad)
-                    
-                    TextField("Address", text: $address)
+                        
+                        TextField("Phone Number", text: $phoneNumber)
+                            .keyboardType(.numberPad)
+                        
+                        TextField("Address", text: $address)
+                    }
+                    .listRowBackground(Color.secondary.opacity(0.1))
                 }
-                .listRowBackground(Color.secondary.opacity(0.1))
+                .scrollContentBackground(.hidden)
+                
             }
-            .listStyle(PlainListStyle())
-            .scrollContentBackground(.hidden)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel", role: .cancel) {
+                        dismiss()
+                    }
+                }
+                ToolbarItem(placement: .principal) {
+                    Text(editorTitle)
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        withAnimation {
+                            save()
+                            dismiss()
+                        }
+                    }
+                }
+            }
+            .onAppear {
+                if let member {
+                    name = member.name
+                    phoneNumber = member.phone
+                    address = member.phone
+                }
+            }
+        }
+        
+    }
+    
+    
+    private func save() {
+        if let member {
+            member.name = name
+            member.phone = phoneNumber
+            member.address = address
+        } else {
+            let newMember = Member(name: name, phone: phoneNumber, address: address)
             
+            modelContext.insert(newMember)
         }
     }
+}
+
+
+#Preview {
+    AddMemberView(member: nil)
 }
