@@ -24,7 +24,7 @@ struct MemberListView: View {
                 print("Error deleting member!!")
             }        } label: {
                 VStack {
-                    Image(systemName: "wrongwaysign.fill")
+                    Image(systemName: "trash.fill")
                     Text("Delete")
                 }
             }
@@ -37,7 +37,7 @@ struct MemberListView: View {
             activeMember = member
         } label: {
             VStack {
-                Image(systemName: "note.text")
+                Image(systemName: "pencil")
                 Text("Edit")
             }
         }

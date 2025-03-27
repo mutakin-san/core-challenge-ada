@@ -109,7 +109,7 @@ struct AddMemberView: View {
                 if let member {
                     name = member.name
                     phoneNumber = member.phone
-                    address = member.phone
+                    address = member.address
                 }
             }
         }
