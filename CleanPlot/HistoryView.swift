@@ -25,7 +25,7 @@ struct HistoryView: View {
                         
                 
                         NavigationLink {
-                         
+                            DetailHistory()
                         } label: {
                             
                             
