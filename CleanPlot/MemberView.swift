@@ -25,7 +25,7 @@ struct MemberView : View {
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
                 .sheet(isPresented: $isSheetPresented) {
-                    AddMemberView()
+                    AddMemberView(member: nil)
                 }
                 
                 MemberListView()

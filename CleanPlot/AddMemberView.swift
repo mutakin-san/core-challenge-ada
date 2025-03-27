@@ -10,9 +10,12 @@ import SwiftData
 
 struct AddMemberView: View {
     
-    let member: Member? = nil
+    let member: Member?
     private var editorTitle: String {
         member == nil ? "Add Member" : "Edit Member"
+    }
+    private var photoTitle: String {
+        member == nil ? "Add Photo" : "Edit Photo"
     }
     
     @State private var name = ""
@@ -52,7 +55,7 @@ struct AddMemberView: View {
                 Button(action: {
                     showImagePicker = true
                 }) {
-                    Text("Add Photo")
+                    Text(photoTitle)
                         .bold()
                         .foregroundColor(.blue)
                         .frame(width: 150, height: 50)
@@ -129,5 +132,5 @@ struct AddMemberView: View {
 
 
 #Preview {
-    AddMemberView()
+    AddMemberView(member: nil)
 }

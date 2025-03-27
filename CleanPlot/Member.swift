@@ -10,7 +10,7 @@ import SwiftData
 @Model
 class Member {
     var imagePath: String
-    @Attribute(.unique)var name: String
+    @Attribute(.unique) var name: String
     var phone: String
     var address: String
     
