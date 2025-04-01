@@ -7,13 +7,6 @@
 
 import SwiftUI
 
-struct CardItem : Identifiable{
-    var id = UUID()
-    var pp : String
-    var nama : String
-    var area : String
-}
-
 struct DetailHistory: View {
     let schedule: Schedule
     
@@ -49,7 +42,12 @@ struct DetailHistory: View {
                     Text(schedule.scheduleId)
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    ShareLink(item: "Itu",message: Text("Share Schedule"))
+                    ShareLink(
+                        item: """
+                            \(schedule.scheduleId)
+                            \(schedule.getAssignmentsText())
+                            """)
+                        .labelStyle(.iconOnly)
                 }
             }
             
@@ -60,7 +58,7 @@ struct DetailHistory: View {
         
         
         
-    }//var body
+    }
 }
 
 #Preview {

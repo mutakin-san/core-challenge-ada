@@ -18,12 +18,6 @@ struct GenerateScheduleView: View {
         schedules.last
     }
     
-    var currentScheduleAssignments: [AssignmentRecord] {
-        currentSchedule?.assignments.sorted(by: {
-            $0.shiftType.description < $1.shiftType.description
-        }) ?? []
-    }
-
     let areas = [
             "SML", "GOP 6", "GOP 1", "Gardu", "GOP 9",
             "Gate 1", "Gate 2", "Marketing", "Pucuk Merah",
@@ -63,13 +57,17 @@ struct GenerateScheduleView: View {
                             
                             Spacer()
                             
-                            ShareLink(item: /*@START_MENU_TOKEN@*/URL(string: "https://developer.apple.com/xcode/swiftui")!/*@END_MENU_TOKEN@*/)
+                            ShareLink(
+                                item: """
+                                    \(currentSchedule?.scheduleId ?? "Unkonwn")
+                                    \(currentSchedule?.getAssignmentsText() ?? "Tidak ada data")
+                                    """)
                                 .labelStyle(.iconOnly)
                         }
                         .padding()
                         
                         
-                        List(currentScheduleAssignments) { assignment in
+                        List(currentSchedule?.sortByShift() ?? []) { assignment in
                             
                             HStack {
                                 Image(.profilePicture)
@@ -127,7 +125,7 @@ struct GenerateScheduleView: View {
     
     
     func generateSchedule() {
-        let scheduler = FlexibleScheduler(members: members, areas: areas, modelContext: modelContext)
+        let scheduler = FlexibleScheduler(members: members, areas: areas, modelContext: modelContext, rules: SchedulingRules(constraints: [.noRepeatArea(2), .noRepeatMember(2)]))
         // Generate schedule
         let result  = scheduler.generateSchedule()
         
