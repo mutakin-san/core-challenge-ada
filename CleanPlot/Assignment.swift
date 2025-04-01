@@ -8,7 +8,7 @@
 import Foundation
 
 struct Assignment {
-    let member: String
+    let member: Member
     let area: String
     let shiftType: ShiftType
     let scheduleId: String

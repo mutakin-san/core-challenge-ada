@@ -3,14 +3,14 @@ import Foundation
 
 @Model
 class AssignmentRecord {
-    var memberName: String
+    @Relationship(deleteRule: .cascade) var member: Member
     var area: String
     var scheduleId: String
     var date: Date
     var shiftType: ShiftType
 
-    init(memberName: String, area: String, scheduleId: String, date: Date, shiftType: ShiftType) {
-        self.memberName = memberName
+    init(member: Member, area: String, scheduleId: String, date: Date, shiftType: ShiftType) {
+        self.member = member
         self.area = area
         self.scheduleId = scheduleId
         self.date = date
@@ -18,6 +18,6 @@ class AssignmentRecord {
     }
     
     var description: String {
-        return "\(memberName) - \(area)"
+        return "\(member.name) - \(area)"
     }
 }

@@ -54,13 +54,13 @@ extension Schedule {
         let afternoonSchedule = self.assignments.filter({ $0.shiftType == .afternoon })
 
         for (index, item) in morningSchedule.enumerated() {
-            text += "\(index + 1). \(item.memberName) - \(item.area)\n"
+            text += "\(index + 1). \(item.member.name) - \(item.area)\n"
         }
         
         text += "\nShift Siang (08.00 WIB): \n"
         
         for (index, item) in afternoonSchedule.enumerated() {
-            text += "\(index + 1). \(item.memberName) - \(item.area)\n"
+            text += "\(index + 1). \(item.member.name) - \(item.area)\n"
         }
 
         

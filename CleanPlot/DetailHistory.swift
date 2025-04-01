@@ -20,7 +20,7 @@ struct DetailHistory: View {
                         ForEach(schedule.assignments.filter({ assignment in
                             assignment.shiftType == ShiftType.morning
                         })) {item in
-                            ListMemberDetailHistory(item: item)
+                            DetailScheduleCard(item: item)
                         }
                     }
                 Section(header: Text("Shift Siang 08.00 - 17.00 WIB")
@@ -30,7 +30,7 @@ struct DetailHistory: View {
                         ForEach(schedule.assignments.filter({ assignment in
                             assignment.shiftType == ShiftType.afternoon
                         })) {item in
-                            ListMemberDetailHistory(item: item)
+                            DetailScheduleCard(item: item)
                         }
                     }
                 
@@ -66,7 +66,7 @@ struct DetailHistory: View {
     DetailHistory(schedule: schedule)
 }
 
-struct ListMemberDetailHistory: View {
+struct DetailScheduleCard: View {
     
     let item: AssignmentRecord
     
@@ -84,7 +84,7 @@ struct ListMemberDetailHistory: View {
                         
                         //nama & no.hp
                         HStack{
-                            Text(item.memberName)
+                            Text(item.member.name)
                                 .padding(.leading, 16)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             Spacer()

@@ -78,7 +78,7 @@ struct GenerateScheduleView: View {
                                 
                                 VStack(alignment: .leading) {
                                     HStack {
-                                        Text(assignment.memberName)
+                                        Text(assignment.member.name)
                                         
                                         Spacer()
                                         Text(assignment.area)

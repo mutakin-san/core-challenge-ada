@@ -12,7 +12,6 @@ import SwiftData
 struct CleanPlotApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Member.self,
             Schedule.self
         ])
         
