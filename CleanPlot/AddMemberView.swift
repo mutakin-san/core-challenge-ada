@@ -12,10 +12,10 @@ struct AddMemberView: View {
     
     let member: Member?
     private var editorTitle: String {
-        member == nil ? "Add Member" : "Edit Member"
+        member == nil ? "Tambah Anggota" : "Ubah Anggota"
     }
     private var photoTitle: String {
-        member == nil ? "Add Photo" : "Edit Photo"
+        member == nil ? "Tambah Foto" : "Ubah Foto"
     }
     
     @State private var name = ""
@@ -74,13 +74,13 @@ struct AddMemberView: View {
                 // Text input fields
                 Form {
                     Section {
-                        TextField("Name", text: $name)
+                        TextField("Nama", text: $name)
                         
                         
-                        TextField("Phone Number", text: $phoneNumber)
+                        TextField("No Telpon", text: $phoneNumber)
                             .keyboardType(.numberPad)
                         
-                        TextField("Address", text: $address)
+                        TextField("Alamat", text: $address)
                     }
                     .listRowBackground(Color.secondary.opacity(0.1))
                 }
@@ -89,7 +89,7 @@ struct AddMemberView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel", role: .cancel) {
+                    Button("Batal", role: .cancel) {
                         dismiss()
                     }
                 }
@@ -97,7 +97,7 @@ struct AddMemberView: View {
                     Text(editorTitle)
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
+                    Button("Simpan") {
                         withAnimation {
                             save()
                             dismiss()

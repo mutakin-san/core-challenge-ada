@@ -32,7 +32,7 @@ struct MemberView : View {
                 
                 
             }
-            .navigationTitle("Member")
+            .navigationTitle("Anggota Tim")
         }
     }
 }

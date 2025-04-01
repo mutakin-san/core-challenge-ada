@@ -15,7 +15,7 @@ struct HistoryView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment:.leading) {
-                Text("History")
+                Text("Riwayat")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading)
                     .padding(.top)

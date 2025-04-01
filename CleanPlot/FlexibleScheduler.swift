@@ -50,7 +50,7 @@ class FlexibleScheduler {
         // Generate schedule ID based on start date
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, yyyy"
-        let scheduleId = "Schedule: \(dateFormatter.string(from: startDate))"
+        let scheduleId = "Jadwal: \(dateFormatter.string(from: startDate))"
         
         // Calculate preference scores based on coverage strategy
         var memberScores = calculateMemberScores(

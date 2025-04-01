@@ -72,11 +72,11 @@ struct GenerateScheduleView: View {
                         List(currentScheduleAssignments) { assignment in
                             
                             HStack {
-                                Image(.manPicture)
+                                Image(.profilePicture)
                                     .resizable()
                                     .frame(width: 60, height: 60)
-                                    .aspectRatio(contentMode: .fit)
-                                    .cornerRadius(/*@START_MENU_TOKEN@*/200.0/*@END_MENU_TOKEN@*/)
+                                    .scaledToFill()
+                                    .clipShape(.circle)
                                 
                                 VStack(alignment: .leading) {
                                     HStack {
@@ -129,9 +129,9 @@ struct GenerateScheduleView: View {
     func generateSchedule() {
         let scheduler = FlexibleScheduler(members: members, areas: areas, modelContext: modelContext)
         // Generate schedule
-        scheduler.generateSchedule()
+        let result  = scheduler.generateSchedule()
         
-        print(schedules)
+        print(result)
         
     }
 }
