@@ -39,3 +39,31 @@ enum CoverageStrategy {
     case fairness       // Minimize variance in total work
     case recentHistory  // Prefer less recently worked members
 }
+
+
+extension Schedule {
+    func sortByShift() -> [AssignmentRecord] {
+        return self.assignments.sorted(by: {
+            $0.shiftType.description < $1.shiftType.description
+        })
+    }
+    
+    func getAssignmentsText() -> String{
+        var text = "Shift Pagi (06.00 WIB): \n"
+        let morningSchedule = self.assignments.filter({ $0.shiftType == .morning })
+        let afternoonSchedule = self.assignments.filter({ $0.shiftType == .afternoon })
+
+        for (index, item) in morningSchedule.enumerated() {
+            text += "\(index + 1). \(item.member.name) - \(item.area)\n"
+        }
+        
+        text += "\nShift Siang (08.00 WIB): \n"
+        
+        for (index, item) in afternoonSchedule.enumerated() {
+            text += "\(index + 1). \(item.member.name) - \(item.area)\n"
+        }
+
+        
+        return text
+    }
+}

@@ -44,13 +44,13 @@ class FlexibleScheduler {
         let recentHistory = fetchRecentHistory()
         
         var assignments: [Assignment] = []
-        var availableMembers = Set(members.map { $0.name })
+        var availableMembers = Set(members)
         var availableAreas = Set(areas)
         
         // Generate schedule ID based on start date
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, yyyy"
-        let scheduleId = "Schedule: \(dateFormatter.string(from: startDate))"
+        let scheduleId = "Jadwal: \(dateFormatter.string(from: startDate))"
         
         // Calculate preference scores based on coverage strategy
         var memberScores = calculateMemberScores(
@@ -89,7 +89,7 @@ class FlexibleScheduler {
                 availableAreas.remove(bestPair.area)
                 
                 // Update member scores
-                memberScores[bestPair.member] = (memberScores[bestPair.member] ?? 0) + 1
+                memberScores[bestPair.member.name] = (memberScores[bestPair.member.name] ?? 0) + 1
             } else {
                 // If no valid assignment found, break to prevent infinite loop
                 print("Could not find valid assignment")
@@ -103,16 +103,16 @@ class FlexibleScheduler {
     
     // Find the best assignment considering multiple constraints
     private func findBestAssignment(
-        availableMembers: Set<String>,
+        availableMembers: Set<Member>,
         availableAreas: Set<String>,
         currentAssignments: [Assignment],
         memberScores: inout [String: Int],
         recentHistory: [AssignmentRecord],
         rules: SchedulingRules,
         startDate: Date
-    ) -> (member: String, area: String, score: Double)? {
+    ) -> (member: Member, area: String, score: Double)? {
         // Create candidate pairs with scores
-        var candidatePairs: [(member: String, area: String, score: Double)] = []
+        var candidatePairs: [(member: Member, area: String, score: Double)] = []
         
         for member in availableMembers {
             for area in availableAreas {
@@ -139,7 +139,7 @@ class FlexibleScheduler {
     
     // Complex scoring mechanism considering multiple factors
     private func calculateAssignmentScore(
-        member: String,
+        member: Member,
         area: String,
         currentAssignments: [Assignment],
         recentHistory: [AssignmentRecord],
@@ -151,7 +151,7 @@ class FlexibleScheduler {
         
         // Base score based on how recently member worked in this area
         let recentAreaAssignments = recentHistory.filter { 
-            $0.memberName == member && $0.area == area 
+            $0.member.name == member.name && $0.area == area
         }
         
         // Apply constraint checks
@@ -163,7 +163,7 @@ class FlexibleScheduler {
                 }
             case .noRepeatMember(let limit):
                 let recentMemberAssignments = recentHistory.filter { 
-                    $0.memberName == member 
+                    $0.member.name == member.name
                 }
                 if recentMemberAssignments.count >= limit {
                     return -Double.infinity
@@ -198,7 +198,7 @@ class FlexibleScheduler {
         }
         
         // Adjust score based on member's current workload
-        if let currentWorkload = memberScores[member] {
+        if let currentWorkload = memberScores[member.name] {
             score -= Double(currentWorkload) * 10  // Penalize overworked members
         }
         
@@ -229,7 +229,7 @@ class FlexibleScheduler {
             // Count total assignments per member
             var memberAssignmentCount: [String: Int] = [:]
             for record in history {
-                memberAssignmentCount[record.memberName, default: 0] += 1
+                memberAssignmentCount[record.member.name, default: 0] += 1
             }
             return memberAssignmentCount
         
@@ -248,8 +248,8 @@ class FlexibleScheduler {
     private func saveSchedule(scheduleId: String, assignments: [Assignment]) -> Schedule {
         let assignmentRecords: [AssignmentRecord] = assignments.map { assignment in
             AssignmentRecord(
-                memberName: assignment.member, 
-                area: assignment.area, 
+                member: assignment.member,
+                area: assignment.area,
                 scheduleId: assignment.scheduleId, 
                 date: assignment.date,
                 shiftType: assignment.shiftType

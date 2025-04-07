@@ -25,7 +25,7 @@ struct MemberListView: View {
             }        } label: {
                 VStack {
                     Image(systemName: "trash.fill")
-                    Text("Delete")
+                    Text("Hapus")
                 }
             }
             .tint(.red)
@@ -38,7 +38,7 @@ struct MemberListView: View {
         } label: {
             VStack {
                 Image(systemName: "pencil")
-                Text("Edit")
+                Text("Ubah")
             }
         }
         .tint(Color(red: 255/255, green: 128/255, blue: 0/255))
@@ -53,6 +53,12 @@ struct MemberListView: View {
                 }
             
         }
+        .overlay(Group {
+            if members.isEmpty {
+                Text("Maaf, Sepertinya belum ada anggota yang ditambahkan").multilineTextAlignment(.center)
+                    .foregroundColor(.gray)
+            }
+        })
         .listRowSpacing(10)
         .sheet(item: $activeMember) {
             activeMember = nil

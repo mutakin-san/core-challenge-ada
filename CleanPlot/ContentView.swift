@@ -13,10 +13,10 @@ struct ContentView: View {
             Tab("Generate", systemImage: "wand.and.rays") {
                 GenerateScheduleView()
             }
-            Tab("Member", systemImage: "person.2") {
+            Tab("Tim", systemImage: "person.2") {
                 MemberView()
             }
-            Tab("History", systemImage: "clock") {
+            Tab("Riwayat", systemImage: "clock") {
                 HistoryView()
             }
         }

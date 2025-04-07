@@ -11,11 +11,12 @@ import SwiftData
 
 struct HistoryView: View {
     @Query var schedules: [Schedule]
-    
+    @Environment(\.modelContext) var modelContext
+
     var body: some View {
         NavigationStack {
             VStack(alignment:.leading) {
-                Text("History")
+                Text("Riwayat")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading)
                     .padding(.top)
@@ -23,21 +24,22 @@ struct HistoryView: View {
                     .fontWeight(.bold)
                 Spacer()
                 
-                List(schedules) {
-                    schedule in
-                    
-                    
-                    NavigationLink {
-                        DetailHistory(schedule: schedule)
-                    } label: {
-                        
-                        
-                        Text(schedule.scheduleId)
-                        
-                        
-                        
-                        
+                List {
+                    ForEach(schedules) {
+                        schedule in
+                        NavigationLink {
+                            DetailHistory(schedule: schedule)
+                        } label: {
+                            Text(schedule.scheduleId)
+                        }
+                    }.onDelete { offsets in
+                        for offset in offsets {
+                            let schedule = schedules[offset]
+                            
+                            modelContext.delete(schedule)
+                        }
                     }
+                    
                 }
                 
             }
