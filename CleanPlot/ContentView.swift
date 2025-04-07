@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            Tab("Generate", systemImage: "wand.and.rays") {
+            Tab("Buat Jadwal", systemImage: "wand.and.rays") {
                 GenerateScheduleView()
             }
             Tab("Tim", systemImage: "person.2") {

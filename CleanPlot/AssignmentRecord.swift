@@ -3,7 +3,7 @@ import Foundation
 
 @Model
 class AssignmentRecord {
-    @Relationship(deleteRule: .noAction) var member: Member
+    @Relationship(deleteRule: .nullify) var member: Member
     var area: String
     var scheduleId: String
     var date: Date

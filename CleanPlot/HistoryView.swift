@@ -16,14 +16,6 @@ struct HistoryView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment:.leading) {
-                Text("Riwayat")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading)
-                    .padding(.top)
-                    .font(.title)
-                    .fontWeight(.bold)
-                Spacer()
-                
                 List {
                     ForEach(schedules) {
                         schedule in
@@ -42,7 +34,7 @@ struct HistoryView: View {
                     
                 }
                 
-            }
+            }.navigationTitle("Riwayat")
         }
     }
 }
