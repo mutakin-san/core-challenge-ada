@@ -18,6 +18,9 @@ struct GenerateScheduleView: View {
         schedules.last
     }
     
+    @State var showingGenerateAlert: Bool = false
+    @State var alertMessage: String = "Terjadi masalah! silahkan coba lagi."
+    
     let areas = [
             "SML", "GOP 6", "GOP 1", "Gardu", "GOP 9",
             "Gate 1", "Gate 2", "Marketing", "Pucuk Merah",
@@ -118,6 +121,9 @@ struct GenerateScheduleView: View {
                     
                 }
             }
+            .alert(alertMessage, isPresented: $showingGenerateAlert) {
+                        Button("OK", role: .cancel) { }
+                    }
             
             
         }
@@ -125,6 +131,11 @@ struct GenerateScheduleView: View {
     
     
     func generateSchedule() {
+        if members.isEmpty {
+            showingGenerateAlert = true
+            alertMessage = "Belum ada anggota!"
+            return
+        }
         let scheduler = FlexibleScheduler(members: members, areas: areas, modelContext: modelContext, rules: SchedulingRules(constraints: [.noRepeatArea(2), .noRepeatMember(2)]))
         // Generate schedule
         let result  = scheduler.generateSchedule()
