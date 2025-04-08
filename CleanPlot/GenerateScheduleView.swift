@@ -22,11 +22,11 @@ struct GenerateScheduleView: View {
     @State var alertMessage: String = "Terjadi masalah! silahkan coba lagi."
     
     let areas = [
-            "SML", "GOP 6", "GOP 1", "Gardu", "GOP 9",
-            "Gate 1", "Gate 2", "Marketing", "Pucuk Merah",
-            "Parkiran", "GOP 5", "Green Bell",
-            "Sampah Ganging", "Mobile", "Mobile"
-        ]
+        "SML", "GOP 6", "GOP 1", "Gardu", "GOP 9",
+        "Gate 1", "Gate 2", "Marketing", "Pucuk Merah",
+        "Parkiran", "GOP 5", "Green Bell",
+        "Sampah Ganging", "Mobile", "Mobile"
+    ]
     
     var body: some View {
         NavigationStack {
@@ -45,7 +45,7 @@ struct GenerateScheduleView: View {
                         .padding(.leading)
                         .font(.subheadline)
                     
-                
+                    
                     if(currentSchedule == nil) {
                         VStack(alignment: .center) {
                             Spacer()
@@ -65,7 +65,7 @@ struct GenerateScheduleView: View {
                                     \(currentSchedule?.scheduleId ?? "Unkonwn")
                                     \(currentSchedule?.getAssignmentsText() ?? "Tidak ada data")
                                     """)
-                                .labelStyle(.iconOnly)
+                            .labelStyle(.iconOnly)
                         }
                         .padding()
                         
@@ -100,30 +100,28 @@ struct GenerateScheduleView: View {
                     
                     
                 }
-                Spacer()
-                Spacer()
-                
+                Spacer()                
             }
             
             Button(action: {
                 generateSchedule()
             }) {
-                ZStack {
-                    Rectangle()
-                        .frame(height: 55.0)
-                        .padding()
-                        .foregroundStyle(.blue)
-                    Text("Generate")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding()
-                    
-                }
+                
+                Text("Buat Jadwal")
+                    .font(.title3)
+                    .frame(
+                        maxWidth: .infinity)                        .fontWeight(.bold)
+                
+                
+                
             }
+            .padding()
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            
             .alert(alertMessage, isPresented: $showingGenerateAlert) {
-                        Button("OK", role: .cancel) { }
-                    }
+                Button("OK", role: .cancel) { }
+            }
             
             
         }

@@ -22,6 +22,7 @@ struct MemberView : View {
                         .frame(maxWidth: .infinity)
                 }
                 .padding()
+                .fontWeight(.bold)
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
                 .sheet(isPresented: $isSheetPresented) {
