@@ -47,10 +47,21 @@ class FlexibleScheduler {
         var availableMembers = Set(members)
         var availableAreas = Set(areas)
         
-        // Generate schedule ID based on start date
+        
+        // Generate schedule ID based on start date and 2 weeks after
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, yyyy"
-        let scheduleId = "Jadwal: \(dateFormatter.string(from: startDate))"
+
+        // Start date
+        let startString = dateFormatter.string(from: startDate)
+
+        // 2 weeks (14 days) after start date
+        let endDate = Calendar.current.date(byAdding: .day, value: 14, to: startDate) ?? startDate
+        let endString = dateFormatter.string(from: endDate)
+        
+        let scheduleId = "Jadwal: \(startString) - \(endString)"
+        
+
         
         // Calculate preference scores based on coverage strategy
         var memberScores = calculateMemberScores(
