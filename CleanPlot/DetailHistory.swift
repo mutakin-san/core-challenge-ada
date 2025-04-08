@@ -62,7 +62,7 @@ struct DetailHistory: View {
 }
 
 #Preview {
-    let schedule: Schedule = Schedule(scheduleId: "Schedule: 13 March")
+    let schedule: Schedule = Schedule(scheduleId: "Schedule: 13 March", startDate: Date(), endDate: Date())
     DetailHistory(schedule: schedule)
 }
 

@@ -122,6 +122,13 @@ struct AddMemberView: View {
             member.name = name
             member.phone = phoneNumber
             member.address = address
+            
+            do {
+                try modelContext.save()
+            } catch {
+                print("Error saving assignments: \(error)")
+            }
+            
         } else {
             let newMember = Member(name: name, phone: phoneNumber, address: address)
             

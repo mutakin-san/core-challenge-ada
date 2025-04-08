@@ -13,12 +13,13 @@ class Member {
     @Attribute(.unique) var name: String
     var phone: String
     var address: String
-    
-    init(imagePath: String = "ProfilePicture", name: String, phone: String, address: String) {
+    var status: Bool
+    init(imagePath: String = "ProfilePicture", name: String, phone: String, address: String, status: Bool = true) {
         self.imagePath = imagePath
         self.name = name
         self.phone = phone
         self.address = address
+        self.status = status
     }
     
     

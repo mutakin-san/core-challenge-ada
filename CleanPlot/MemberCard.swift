@@ -10,6 +10,9 @@ import SwiftUI
 
 struct MemberCard: View {
     var item: Member
+    @State var isActive = false
+    @Environment(\.modelContext) var modelContext
+
     
     var body: some View {
         
@@ -31,8 +34,23 @@ struct MemberCard: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundColor(.gray)
             }
+            Spacer()
+            Toggle("Status", isOn: $isActive)
+                .onChange(of: isActive) { oldValue, newValue in
+                    print(newValue)
+                    item.status = newValue
+                    
+                    do {
+                        try modelContext.save()
+                    } catch {
+                        print("Error saving assignments: \(error)")
+                    }
+                    
+                }
         }
-        
+        .onAppear {
+            isActive = item.status
+        }
     }
 }
 

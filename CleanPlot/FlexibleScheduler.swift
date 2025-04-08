@@ -109,7 +109,7 @@ class FlexibleScheduler {
         }
         
         // Save assignments to history
-        return saveSchedule(scheduleId: scheduleId, assignments: assignments)
+        return saveSchedule(scheduleId: scheduleId, startDate: startDate, endDate: endDate, assignments: assignments)
     }
     
     // Find the best assignment considering multiple constraints
@@ -256,7 +256,7 @@ class FlexibleScheduler {
     }
     
     // Save assignments to database
-    private func saveSchedule(scheduleId: String, assignments: [Assignment]) -> Schedule {
+    private func saveSchedule(scheduleId: String, startDate: Date, endDate: Date, assignments: [Assignment]) -> Schedule {
         let assignmentRecords: [AssignmentRecord] = assignments.map { assignment in
             AssignmentRecord(
                 member: assignment.member,
@@ -267,7 +267,7 @@ class FlexibleScheduler {
             )
         }
         
-        let schedule = Schedule(scheduleId: scheduleId)
+        let schedule = Schedule(scheduleId: scheduleId, startDate: startDate, endDate: endDate)
         schedule.assignments.append(contentsOf: assignmentRecords)
         modelContext.insert(schedule)
 
