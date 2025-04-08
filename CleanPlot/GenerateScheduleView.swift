@@ -11,11 +11,11 @@ import SwiftData
 
 struct GenerateScheduleView: View {
     
-    @Query var schedules: [Schedule]
+    @Query(sort: \Schedule.persistentModelID, order: .reverse) var schedules: [Schedule]
     @Query var members: [Member]
     @Environment(\.modelContext) var modelContext
     var currentSchedule: Schedule? {
-        schedules.last
+        schedules.first
     }
     
     @State var showingGenerateAlert: Bool = false
