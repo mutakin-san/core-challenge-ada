@@ -20,6 +20,9 @@ struct GenerateScheduleView: View {
     
     @State var showingGenerateAlert: Bool = false
     @State var alertMessage: String = "Terjadi masalah! silahkan coba lagi."
+    @State private var selection = "SML"
+    @State var editMode = false
+    
     
     let areas = [
             "SML", "GOP 6", "GOP 1", "Gardu", "GOP 9",
@@ -60,6 +63,15 @@ struct GenerateScheduleView: View {
                             
                             Spacer()
                             
+                            Button {
+                                editMode = !editMode
+                            } label: {
+                                Text(editMode ? "Done" : "Edit")
+                            }
+
+                            
+
+                                
                             ShareLink(
                                 item: """
                                     \(currentSchedule?.scheduleId ?? "Unkonwn")
@@ -84,7 +96,28 @@ struct GenerateScheduleView: View {
                                         Text(assignment.member.name)
                                         
                                         Spacer()
-                                        Text(assignment.area)
+                                        
+                                        Spacer()
+                                        
+                                        if editMode {
+                                            
+                                            Picker("Area", selection: $selection) {
+                                                            ForEach(areas, id: \.self) {
+                                                                Text($0)
+                                                            }
+                                                        }
+                                            .labelsHidden()
+                                            .frame(minWidth: 0, minHeight: 0)
+                                            .onAppear {
+                                                selection  = assignment.area
+                                            }
+        
+                                            .padding(0)
+                                        }
+                                        else {
+                                            Text(assignment.area)
+                                        }
+                                        
                                         
                                     }
                                     Text(assignment.shiftType.description)
