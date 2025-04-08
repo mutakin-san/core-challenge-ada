@@ -19,13 +19,14 @@ struct GenerateScheduleView: View {
     }
     
     @State var showingGenerateAlert: Bool = false
+    @State var showingSuccessGenerateAlert: Bool = false
     @State var alertMessage: String = "Terjadi masalah! silahkan coba lagi."
     
     let areas = [
         "SML", "GOP 6", "GOP 1", "Gardu", "GOP 9",
         "Gate 1", "Gate 2", "Marketing", "Pucuk Merah",
         "Parkiran", "GOP 5", "Green Bell",
-        "Sampah Ganging", "Mobile", "Mobile"
+        "Sampah Gantung", "Mobile", "Mobile"
     ]
     
     var body: some View {
@@ -122,11 +123,40 @@ struct GenerateScheduleView: View {
             .alert(alertMessage, isPresented: $showingGenerateAlert) {
                 Button("OK", role: .cancel) { }
             }
-            
-            
         }
+        .overlay(
+            Group {
+                if showingSuccessGenerateAlert {
+                    VStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 60))
+                            .foregroundColor(.green)
+                            .transition(.scale)
+                            .padding(.bottom, 8)
+                        Text("Jadwal berhasil dibuat")
+                            .font(.headline)
+                    }
+                    .padding(30)
+                    .background(Color.white)
+                    .cornerRadius(16)
+                    .shadow(radius: 10)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+        )
     }
     
+    
+    func showSuccessAnimation() {
+        withAnimation {
+            showingSuccessGenerateAlert = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation {
+                showingSuccessGenerateAlert = false
+            }
+        }
+    }
     
     func generateSchedule() {
         if members.isEmpty {
@@ -138,6 +168,7 @@ struct GenerateScheduleView: View {
         // Generate schedule
         let result  = scheduler.generateSchedule()
         
+        showSuccessAnimation()
         print(result)
         
     }
