@@ -25,7 +25,7 @@ struct GenerateScheduleView: View {
         "SML", "GOP 6", "GOP 1", "Gardu", "GOP 9",
         "Gate 1", "Gate 2", "Marketing", "Pucuk Merah",
         "Parkiran", "GOP 5", "Green Bell",
-        "Sampah Ganging", "Mobile", "Mobile"
+        "Sampah Gantung", "Mobile", "Mobile"
     ]
     
     var body: some View {
