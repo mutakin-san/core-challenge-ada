@@ -104,7 +104,7 @@ struct GenerateScheduleView: View {
                                 }
                             }
                             .padding()
-                            MemberListView()
+                            MemberListView(containStatus: true)
                         }
                     }
                     Spacer()
