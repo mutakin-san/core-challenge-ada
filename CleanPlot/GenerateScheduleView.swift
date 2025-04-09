@@ -66,11 +66,7 @@ struct GenerateScheduleView: View {
                 Group {
                     switch selectedSegment {
                     case 0:
-                        CurrentScheduleView(
-                            currentSchedule: currentSchedule,
-                            showConfigModal: $showConfigModal,
-                            showingResult: $showingResult
-                        )
+                        CurrentScheduleView(currentSchedule: currentSchedule, areas: areas)
                     case 1:
                         ScheduleHistoryView(
                             scheduleHistories: scheduleHistories,
@@ -130,68 +126,6 @@ struct GenerateScheduleView: View {
         showingResult = true
         print(result)
     }
-}
-
-// - Subviews
-
-struct CurrentScheduleView: View {
-    let currentSchedule: Schedule?
-    @Binding var showConfigModal: Bool
-    @Binding var showingResult: Bool
-    
-    var body: some View {
-        if(currentSchedule == nil) {
-            VStack(alignment: .center) {
-                Spacer()
-                Text("Tidak ada jadwal")
-                    .foregroundColor(.gray)
-                Spacer()
-            }
-            
-        } else {
-            HStack {
-                Text(currentSchedule?.scheduleId ?? "Unknown")
-                
-                Spacer()
-                
-                ShareLink(
-                    item: """
-                                                               \(currentSchedule?.scheduleId ?? "Unkonwn")
-                                                               \(currentSchedule?.getAssignmentsText() ?? "Tidak ada data")
-                                                               """)
-                .labelStyle(.iconOnly)
-            }
-            .padding()
-            
-            
-            List(currentSchedule?.sortByShift() ?? []) { assignment in
-                
-                HStack {
-                    Image(.profilePicture)
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .scaledToFill()
-                        .clipShape(.circle)
-                    
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(assignment.member.name)
-                            
-                            Spacer()
-                            Text(assignment.area)
-                            
-                        }
-                        Text(assignment.shiftType.description)
-                            .font(.caption)
-                        
-                    }
-                }
-                
-            }
-            .listRowSpacing(10)
-        }
-        
-    }//varbody
 }
 
 struct ScheduleHistoryView: View {
@@ -270,7 +204,7 @@ struct MemberStatusEditView: View {
     
     var body: some View {
         NavigationStack {
-            MemberListView()
+            MemberListView(containStatus: true)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button("Batal") {

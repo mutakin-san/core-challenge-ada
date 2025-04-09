@@ -20,20 +20,6 @@ struct CurrentScheduleView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            
-            Text("Halo, Subur!")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading)
-                .padding(.top)
-                .font(.title)
-                .fontWeight(.bold)
-            
-            Text("Buat Jadwal Tim Anda Sekarang!")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading)
-                .font(.subheadline)
-            
-            
             if(currentSchedule == nil) {
                 VStack(alignment: .center) {
                     Spacer()
