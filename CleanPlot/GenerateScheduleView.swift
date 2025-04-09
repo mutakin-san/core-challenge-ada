@@ -101,7 +101,7 @@ struct GenerateScheduleView: View {
                     
                     
                 }
-                Spacer()                
+                Spacer()
             }
             
             Button(action: {
