@@ -47,7 +47,7 @@ struct GenerateScheduleView: View {
                         .font(.title)
                         .fontWeight(.bold)
                     
-                    Text("Buat Jadwal Tim Anda Sekarang!")
+                    Text("Buat jadwal tim Anda Sekarang!")
                         .font(.subheadline)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -56,11 +56,14 @@ struct GenerateScheduleView: View {
                 
                 // Segmented Control
                 Picker("", selection: $selectedSegment) {
-                    Text("Jadwal Saat Ini").tag(0)
-                    Text("Riwayat").tag(1)
+                    Text("Jadwal Terkini")
+                        .tag(0)
+                    Text("Riwayat")
+                        .tag(1)
                 }
                 .pickerStyle(.segmented)
                 .padding(.horizontal)
+                
                 
                 // Content based on selection
                 Group {
@@ -172,17 +175,36 @@ struct ConfigModalView: View {
         VStack {
             HStack {
                 VStack(alignment: .leading) {
-                    Text("Atur anggota")
+                    Text("Anggota")
                         .font(.title3)
-                    Text("Jumlah Anggota yang aktif (\(activeMembers.count) orang)")
-                        .font(.caption)
+                    
+                    HStack(spacing: 8) {
+                        Text("Active")
+                            .font(.system(size: 16, weight: .medium))
+                        
+                        //status active in modals
+                        ZStack {
+                            Circle()
+                                .fill(Color.green)
+                                .frame(width: 8, height: 8)
+                                .shadow(color: .green, radius: 4, x: 0, y: 0)
+                                .glow(color: .green.opacity(0.3), radius: 4)
+                            
+                        }
+                        Text("\(activeMembers.count)")
+                            .font(.system(size: 16))
+                    }
+                    Spacer()
                 }
                 Spacer()
-                Button("Atur Anggota") {
-                    showEditMemberStatus = true
-                }
-                .sheet(isPresented: $showEditMemberStatus) {
-                    MemberStatusEditView(showEditMemberStatus: $showEditMemberStatus)
+                VStack {
+                    Button("Atur Anggota") {
+                        showEditMemberStatus = true
+                    }
+                    .sheet(isPresented: $showEditMemberStatus) {
+                        MemberStatusEditView(showEditMemberStatus: $showEditMemberStatus)
+                    }
+                    Spacer()
                 }
             }
             Spacer()
@@ -190,12 +212,22 @@ struct ConfigModalView: View {
                 generateSchedule()
             } label: {
                 Text("Lanjutkan")
-                    .fontWeight(.bold)
+                
             }
             .buttonStyle(.borderedProminent)
         }
         .padding()
         .presentationDetents([.fraction(0.3)])
+    }
+}
+
+// Glow effect modifier
+extension View {
+    func glow(color: Color = .green, radius: CGFloat = 10) -> some View {
+        self
+            .shadow(color: color, radius: radius / 3)
+            .shadow(color: color, radius: radius / 3)
+            .shadow(color: color, radius: radius / 3)
     }
 }
 
