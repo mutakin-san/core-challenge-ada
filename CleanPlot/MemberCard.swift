@@ -36,6 +36,7 @@ struct MemberCard: View {
             }
             Spacer()
             Toggle("Status", isOn: $isActive)
+                .labelsHidden()
                 .onChange(of: isActive) { oldValue, newValue in
                     print(newValue)
                     item.status = newValue
