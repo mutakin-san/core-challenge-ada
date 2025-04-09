@@ -116,7 +116,7 @@ struct GenerateScheduleView: View {
             return
         }
         let scheduler = FlexibleScheduler(
-            members: members,
+            members: activeMembers,
             areas: areas,
             modelContext: modelContext,
             rules: SchedulingRules(constraints: [.noRepeatArea(2), .noRepeatMember(2)])

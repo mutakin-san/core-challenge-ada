@@ -57,7 +57,6 @@ struct AddMemberView: View {
                 }) {
                     Text(photoTitle)
                         .bold()
-                        .foregroundColor(.blue)
                         .frame(width: 150, height: 50)
                         .background(Color.secondary.opacity(0.1))
                         .clipShape(Capsule())
