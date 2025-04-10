@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		A4DE03A72D93A69B00EDAA71 /* CleanPlot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanPlot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4DE03A72D93A69B00EDAA71 /* ShinyShift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShinyShift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -40,7 +40,7 @@
 		A4DE03A82D93A69B00EDAA71 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A4DE03A72D93A69B00EDAA71 /* CleanPlot.app */,
+				A4DE03A72D93A69B00EDAA71 /* ShinyShift.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +48,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A4DE03A62D93A69B00EDAA71 /* CleanPlot */ = {
+		A4DE03A62D93A69B00EDAA71 /* ShinyShift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A4DE03B52D93A69B00EDAA71 /* Build configuration list for PBXNativeTarget "CleanPlot" */;
+			buildConfigurationList = A4DE03B52D93A69B00EDAA71 /* Build configuration list for PBXNativeTarget "ShinyShift" */;
 			buildPhases = (
 				A4DE03A32D93A69B00EDAA71 /* Sources */,
 				A4DE03A42D93A69B00EDAA71 /* Frameworks */,
@@ -63,11 +63,11 @@
 			fileSystemSynchronizedGroups = (
 				A4DE03A92D93A69B00EDAA71 /* CleanPlot */,
 			);
-			name = CleanPlot;
+			name = ShinyShift;
 			packageProductDependencies = (
 			);
 			productName = CleanPlot;
-			productReference = A4DE03A72D93A69B00EDAA71 /* CleanPlot.app */;
+			productReference = A4DE03A72D93A69B00EDAA71 /* ShinyShift.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -85,7 +85,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A4DE03A22D93A69B00EDAA71 /* Build configuration list for PBXProject "CleanPlot" */;
+			buildConfigurationList = A4DE03A22D93A69B00EDAA71 /* Build configuration list for PBXProject "ShinyShift" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A4DE03A62D93A69B00EDAA71 /* CleanPlot */,
+				A4DE03A62D93A69B00EDAA71 /* ShinyShift */,
 			);
 		};
 /* End PBXProject section */
@@ -309,7 +309,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A4DE03A22D93A69B00EDAA71 /* Build configuration list for PBXProject "CleanPlot" */ = {
+		A4DE03A22D93A69B00EDAA71 /* Build configuration list for PBXProject "ShinyShift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A4DE03B32D93A69B00EDAA71 /* Debug */,
@@ -318,7 +318,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A4DE03B52D93A69B00EDAA71 /* Build configuration list for PBXNativeTarget "CleanPlot" */ = {
+		A4DE03B52D93A69B00EDAA71 /* Build configuration list for PBXNativeTarget "ShinyShift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A4DE03B62D93A69B00EDAA71 /* Debug */,
