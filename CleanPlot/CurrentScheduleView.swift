@@ -53,8 +53,9 @@ struct CurrentScheduleView: View {
                     Button {
                         editMode = !editMode
                     } label: {
-                        Text(editMode ? "Done" : "Edit")
+                        Text(editMode ? "Selesai" : "Ubah")
                     }
+                    .padding(.trailing, 4)
                     
                     
                     ShareLink(
