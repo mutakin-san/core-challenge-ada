@@ -23,8 +23,7 @@ struct GenerateScheduleView: View {
     }
     
     var scheduleHistories: [Schedule] {
-        schedules.filter { i in
-            true }
+        schedules.filter { $0.endDate < Date() }
     }
     
     @State var showingGenerateAlert: Bool = false
