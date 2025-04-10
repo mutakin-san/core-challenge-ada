@@ -16,7 +16,23 @@ struct CurrentScheduleView: View {
     @State private var selection = "SML"
     @State var editMode = false
     @Environment(\.modelContext) var modelContext
-
+    
+    
+    private func swapArea(to newValue: String,from assignment: AssignmentRecord) -> Void {
+        if let swapAssignment = currentSchedule?.assignments.first(where: { $0.area == newValue }) {
+            let temp = assignment.area
+            assignment.area = swapAssignment.area
+            swapAssignment.area = temp
+        } else {
+            assignment.area = newValue
+        }
+        
+        do {
+            try modelContext.save()
+        } catch {
+            print("Error saving assignments: \(error)")
+        }
+    }
     
     var body: some View {
         VStack(alignment: .center) {
@@ -42,69 +58,32 @@ struct CurrentScheduleView: View {
                     
                     
                     ShareLink(
-                        item: """
-\(currentSchedule?.scheduleId ?? "Unkonwn")
-\(currentSchedule?.getAssignmentsText() ?? "Tidak ada data")
-""")
+                        item: currentSchedule?.getAssignmentsText() ?? "Tidak ada data")
                     .labelStyle(.iconOnly)
                 }
                 .padding()
                 
                 
-                List(currentSchedule?.sortByShift() ?? []) { assignment in
-                    
-                    HStack {
-                        Image(.profilePicture)
-                            .resizable()
-                            .frame(width: 60, height: 60)
-                            .scaledToFill()
-                            .clipShape(.circle)
-                        
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text(assignment.member.name)
-                                
-                                Spacer()
-                                
-                                if editMode {
-                                    
-                                    Picker("Area", selection: Binding(
-                                        get: { assignment.area },
-                                        set: { newValue in
-                                            // Handle swap logic here
-                                            if let swapAssignment = currentSchedule?.assignments.first(where: { $0.area == newValue }) {
-                                                let temp = assignment.area
-                                                assignment.area = swapAssignment.area
-                                                swapAssignment.area = temp
-                                            } else {
-                                                assignment.area = newValue
-                                            }
-                                            
-                                            do {
-                                                try modelContext.save()
-                                            } catch {
-                                                print("Error saving assignments: \(error)")
-                                            }
-                                        }
-                                    )) {
-                                        ForEach(areas, id: \.self) { area in
-                                            Text(area)
-                                        }
-                                    }
-                                    .labelsHidden()
-                                    .frame(minWidth: 0, maxHeight: 30) // control height
-                                    .clipped()
-                                    .padding(0)
-                                }
-                                else {
-                                    Text(assignment.area)
-                                }
+                List {
+                    Section(header: Text("Shift Pagi 06.00 - 15.00 WIB")) {
+                        ForEach(currentSchedule?.assignments.filter({ assignment in
+                            assignment.shiftType == ShiftType.morning
+                        }) ?? []) { assignment in
+                            AssignmentCard(assignment: assignment, areas: areas, editMode: editMode) { newValue in
+                                swapArea(to: newValue, from: assignment)
                             }
-                            Text(assignment.shiftType.description)
-                                .font(.caption)
-                            
                         }
                     }
+                    Section(header: Text("Shift Siang 08.00 - 17.00 WIB")) {
+                        ForEach(currentSchedule?.assignments.filter({ assignment in
+                            assignment.shiftType == ShiftType.afternoon
+                        }) ?? []) { assignment in
+                            AssignmentCard(assignment: assignment, areas: areas, editMode: editMode) { newValue in
+                                swapArea(to: newValue, from: assignment)
+                            }
+                        }
+                    }
+                    
                     
                 }
                 .listRowSpacing(10)

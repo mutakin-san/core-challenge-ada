@@ -144,7 +144,7 @@ struct ScheduleHistoryView: View {
             List {
                 ForEach(scheduleHistories) { schedule in
                     NavigationLink {
-                        DetailHistory(schedule: schedule)
+                        DetailScheduleList(schedule: schedule)
                     } label: {
                         Text(schedule.scheduleId)
                     }
