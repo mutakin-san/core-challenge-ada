@@ -69,6 +69,10 @@ class FlexibleScheduler {
             strategy: activeRules.coverageStrategy
         )
         
+        // Initialize shift counters
+        var morningShiftCount = 0
+        var afternoonShiftCount = 0
+        
         // Assignment generation loop
         while assignments.count < assignmentsToGenerate && 
               !availableMembers.isEmpty && 
@@ -85,13 +89,36 @@ class FlexibleScheduler {
                 startDate: startDate
             ) {
                 
+                // Determine shift type based on balancing counts
+                let shiftType: ShiftType
+                
+                if morningShiftCount < afternoonShiftCount {
+                    // Need more morning shifts to balance
+                    shiftType = .morning
+                } else if afternoonShiftCount < morningShiftCount {
+                    // Need more afternoon shifts to balance
+                    shiftType = .afternoon
+                } else {
+                    // Counts are equal, use another strategy (like alternating)
+                    shiftType = assignments.count % 2 == 0 ? .morning : .afternoon
+                }
+                
+                
+                
                 let assignment = Assignment(
                     member: bestPair.member,
                     area: bestPair.area,
-                    shiftType: assignments.count < (assignmentsToGenerate / 2) ? .morning : .afternoon,
+                    shiftType: shiftType,
                     scheduleId: scheduleId,
                     date: startDate
                 )
+                
+                // Update shift counters
+                if shiftType == .morning {
+                    morningShiftCount += 1
+                } else {
+                    afternoonShiftCount += 1
+                }
                 
                 assignments.append(assignment)
                 
