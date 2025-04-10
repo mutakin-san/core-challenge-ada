@@ -26,7 +26,7 @@ struct HistoryView: View {
                         ForEach(schedules) {
                             schedule in
                             NavigationLink {
-                                DetailHistory(schedule: schedule)
+                                DetailScheduleList(schedule: schedule)
                             } label: {
                                 Text(schedule.scheduleId)
                             }

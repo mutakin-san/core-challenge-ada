@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct MemberCard: View {
+struct MemberCardWithToggle: View {
     var item: Member
     @State var isActive = false
     @Environment(\.modelContext) var modelContext
@@ -35,7 +35,19 @@ struct MemberCard: View {
                     .foregroundColor(.gray)
             }
             Spacer()
-            
+            Toggle("Status", isOn: $isActive)
+                .labelsHidden()
+                .onChange(of: isActive) { oldValue, newValue in
+                    print(newValue)
+                    item.status = newValue
+                    
+                    do {
+                        try modelContext.save()
+                    } catch {
+                        print("Error saving assignments: \(error)")
+                    }
+                    
+                }
         }
         .onAppear {
             isActive = item.status
@@ -44,5 +56,5 @@ struct MemberCard: View {
 }
 
 #Preview {
-    MemberCard(item: Member(imagePath: "ProfilePicture", name: "Endang", phone: "+628578483827", address: "Bandung"))
+    MemberCardWithToggle(item: Member(imagePath: "ProfilePicture", name: "Endang", phone: "+628578483827", address: "Bandung"))
 }
