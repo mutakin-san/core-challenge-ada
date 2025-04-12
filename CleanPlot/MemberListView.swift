@@ -11,10 +11,13 @@ import UIKit
 
 struct MemberListView: View {
     
+    var containStatus: Bool 
+    
     @Query var members: [Member]
     @State var activeMember: Member? = nil
     @State var memberToDelete: Member? = nil
     @State var showDeleteConfirmation = false
+    
     @Environment(\.modelContext) var modelContext
     
     fileprivate func delete(_ member: Member) -> some View {
@@ -48,11 +51,24 @@ struct MemberListView: View {
     
     var body: some View {
         List (members) { member in
-            MemberCard(item: member)
-                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                    delete(member)
-                    edit(member)
-                }
+            
+            if containStatus {
+                MemberCardWithToggle(item: member)
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        delete(member)
+                        edit(member)
+                    }
+
+            }
+            
+            else {
+                MemberCard(item: member)
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        delete(member)
+                        edit(member)
+                    }
+
+            }
             
         }
         .overlay(Group {
@@ -100,5 +116,5 @@ struct MemberListView: View {
 
 
 #Preview {
-    MemberListView()
+    MemberListView(containStatus: false)
 }
