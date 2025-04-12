@@ -13,32 +13,33 @@ class Member {
     @Attribute(.unique) var name: String
     var phone: String
     var address: String
-    
-    init(imagePath: String = "ProfilePicture", name: String, phone: String, address: String) {
+    var status: Bool
+    init(imagePath: String = "ProfilePicture", name: String, phone: String, address: String, status: Bool = true) {
         self.imagePath = imagePath
         self.name = name
         self.phone = phone
         self.address = address
+        self.status = status
     }
     
     
     static var defaults: [Member] {
         [
-            .init(name: "Udin", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 1", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 2", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 3", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 4", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 5", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 6", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 7", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 8", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 9", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 10", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 11", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 12", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 13", phone: "000000000000", address: "Jakarta"),
-            .init(name: "Udin 14", phone: "000000000000", address: "Jakarta"),
+            .init(name: "Maman", phone: "+6287678593933", address: "Jakarta"),
+            .init(name: "Budi", phone: "+6287678593933", address: "Depok"),
+            .init(name: "Nanang", phone: "+6287678593933", address: "Bandung"),
+            .init(name: "Tatang", phone: "+6287678593933", address: "Tangsel"),
+            .init(name: "Mahmud", phone: "+6287678593933", address: "BSD"),
+            .init(name: "Rahmat", phone: "+6287678593933", address: "Bekasi"),
+            .init(name: "Herman", phone: "+6287678593933", address: "Jaksel"),
+            .init(name: "Suparman", phone: "+6287678593933", address: "Jaktim"),
+            .init(name: "Supardi", phone: "+6287678593933", address: "Depok"),
+            .init(name: "Gunawan", phone: "+6287678593933", address: "Bogor"),
+            .init(name: "Suherman", phone: "+6287678593933", address: "Tasik"),
+            .init(name: "Bambang", phone: "+6287678593933", address: "Pamulang"),
+            .init(name: "Ujang", phone: "+6287678593933", address: "Serpong"),
+            .init(name: "Dodi", phone: "+6287678593933", address: "Rawa Buntu"),
+            .init(name: "Rahman", phone: "+6287678593933", address: "Serang"),
         ]
     }
 }

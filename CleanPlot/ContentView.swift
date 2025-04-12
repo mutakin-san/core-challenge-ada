@@ -16,9 +16,6 @@ struct ContentView: View {
             Tab("Tim", systemImage: "person.2") {
                 MemberView()
             }
-            Tab("Riwayat", systemImage: "clock") {
-                HistoryView()
-            }
         }
     }
 }

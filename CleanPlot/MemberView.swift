@@ -21,6 +21,7 @@ struct MemberView : View {
                     Label("Tambah Member", systemImage: "plus.square.dashed")
                         .frame(maxWidth: .infinity)
                 }
+            
                 .padding()
                 .fontWeight(.bold)
                 .buttonStyle(.borderedProminent)
@@ -29,7 +30,7 @@ struct MemberView : View {
                     AddMemberView(member: nil)
                 }
                 
-                MemberListView()
+                MemberListView(containStatus: false)
                 
                 
             }
