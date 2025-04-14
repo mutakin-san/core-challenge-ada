@@ -27,6 +27,15 @@ This is a project of core-challenge Apple Academy.
 - Using custom components
 - Implementing networking
 
+## Preview
+
+![WhatsApp Image 2025-04-10 at 12 18 24 PM](https://github.com/user-attachments/assets/9bb71c6f-0be6-478b-a317-7966d84efe5f)
+![WhatsApp Image 2025-04-10 at 12 18 25 PM](https://github.com/user-attachments/assets/f5572fa1-c8a2-4151-a236-05b4e6d9c925)
+![WhatsApp Image 2025-04-10 at 12 18 25 PM-2](https://github.com/user-attachments/assets/4e2733ce-9582-4a18-a383-f7f1d023d762)
+
+
+
+
 ## Members
 1. Mutakin
 2. Frewin
