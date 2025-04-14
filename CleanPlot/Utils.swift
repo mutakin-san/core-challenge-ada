@@ -49,7 +49,7 @@ extension Schedule {
     }
     
     func getAssignmentsText() -> String{
-        var text = "Shift Pagi (06.00 WIB): \n"
+        var text = "\(self.scheduleId)\nShift Pagi (06.00 WIB): \n"
         let morningSchedule = self.assignments.filter({ $0.shiftType == .morning })
         let afternoonSchedule = self.assignments.filter({ $0.shiftType == .afternoon })
 

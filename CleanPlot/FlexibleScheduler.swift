@@ -69,6 +69,10 @@ class FlexibleScheduler {
             strategy: activeRules.coverageStrategy
         )
         
+        // Initialize shift counters
+        var morningShiftCount = 0
+        var afternoonShiftCount = 0
+        
         // Assignment generation loop
         while assignments.count < assignmentsToGenerate && 
               !availableMembers.isEmpty && 
@@ -85,13 +89,36 @@ class FlexibleScheduler {
                 startDate: startDate
             ) {
                 
+                // Determine shift type based on balancing counts
+                let shiftType: ShiftType
+                
+                if morningShiftCount < afternoonShiftCount {
+                    // Need more morning shifts to balance
+                    shiftType = .morning
+                } else if afternoonShiftCount < morningShiftCount {
+                    // Need more afternoon shifts to balance
+                    shiftType = .afternoon
+                } else {
+                    // Counts are equal, use another strategy (like alternating)
+                    shiftType = assignments.count % 2 == 0 ? .morning : .afternoon
+                }
+                
+                
+                
                 let assignment = Assignment(
                     member: bestPair.member,
                     area: bestPair.area,
-                    shiftType: assignments.count < (assignmentsToGenerate / 2) ? .morning : .afternoon,
+                    shiftType: shiftType,
                     scheduleId: scheduleId,
                     date: startDate
                 )
+                
+                // Update shift counters
+                if shiftType == .morning {
+                    morningShiftCount += 1
+                } else {
+                    afternoonShiftCount += 1
+                }
                 
                 assignments.append(assignment)
                 
@@ -109,7 +136,7 @@ class FlexibleScheduler {
         }
         
         // Save assignments to history
-        return saveSchedule(scheduleId: scheduleId, assignments: assignments)
+        return saveSchedule(scheduleId: scheduleId, startDate: startDate, endDate: endDate, assignments: assignments)
     }
     
     // Find the best assignment considering multiple constraints
@@ -256,7 +283,7 @@ class FlexibleScheduler {
     }
     
     // Save assignments to database
-    private func saveSchedule(scheduleId: String, assignments: [Assignment]) -> Schedule {
+    private func saveSchedule(scheduleId: String, startDate: Date, endDate: Date, assignments: [Assignment]) -> Schedule {
         let assignmentRecords: [AssignmentRecord] = assignments.map { assignment in
             AssignmentRecord(
                 member: assignment.member,
@@ -267,7 +294,7 @@ class FlexibleScheduler {
             )
         }
         
-        let schedule = Schedule(scheduleId: scheduleId)
+        let schedule = Schedule(scheduleId: scheduleId, startDate: startDate, endDate: endDate)
         schedule.assignments.append(contentsOf: assignmentRecords)
         modelContext.insert(schedule)
 

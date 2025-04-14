@@ -57,7 +57,6 @@ struct AddMemberView: View {
                 }) {
                     Text(photoTitle)
                         .bold()
-                        .foregroundColor(.blue)
                         .frame(width: 150, height: 50)
                         .background(Color.secondary.opacity(0.1))
                         .clipShape(Capsule())
@@ -122,6 +121,13 @@ struct AddMemberView: View {
             member.name = name
             member.phone = phoneNumber
             member.address = address
+            
+            do {
+                try modelContext.save()
+            } catch {
+                print("Error saving assignments: \(error)")
+            }
+            
         } else {
             let newMember = Member(name: name, phone: phoneNumber, address: address)
             
