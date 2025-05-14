@@ -12,16 +12,16 @@ import SwiftData
 struct ShinyShiftApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Schedule.self
+            ScheduleModel.self
         ])
         
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
             let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
-//            Member.defaults.forEach { member in
-//                container.mainContext.insert(member)
-//            }
+            Member.defaults.forEach { member in
+                container.mainContext.insert(member)
+            }
             return container
         } catch {
             fatalError("Could not create ModelContainer: \(error)")

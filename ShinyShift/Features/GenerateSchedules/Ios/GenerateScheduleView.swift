@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct GenerateScheduleView: View {
-    @Query(sort: \Schedule.persistentModelID, order: .reverse) var schedules: [Schedule]
+    @Query(sort: \ScheduleModel.persistentModelID, order: .reverse) var schedules: [ScheduleModel]
     
     @State private var selectedSegment = 0
     @State var showDeleteAlert = false
@@ -18,11 +18,11 @@ struct GenerateScheduleView: View {
     
     @Environment(\.modelContext) var modelContext
     
-    var currentSchedule: Schedule? {
+    var currentSchedule: ScheduleModel? {
         schedules.first { $0.endDate > Date() }
     }
     
-    var scheduleHistories: [Schedule] {
+    var scheduleHistories: [ScheduleModel] {
         schedules
     }
     
@@ -131,7 +131,7 @@ struct GenerateScheduleView: View {
 }
 
 struct ScheduleHistoryView: View {
-    let scheduleHistories: [Schedule]
+    let scheduleHistories: [ScheduleModel]
     @Binding var showDeleteAlert: Bool
     @Binding var indexSetToDelete: IndexSet?
     

@@ -2,7 +2,7 @@ import SwiftData
 import Foundation
 
 @Model
-class AssignmentRecord {
+class AssignmentModel {
     @Relationship(deleteRule: .nullify) var member: Member
     var area: String
     var scheduleId: String

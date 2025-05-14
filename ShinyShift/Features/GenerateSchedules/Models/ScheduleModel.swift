@@ -9,9 +9,9 @@ import SwiftData
 import Foundation
 
 @Model
-class Schedule {
+class ScheduleModel {
     var scheduleId: String
-    @Relationship(deleteRule: .cascade) var assignments: [AssignmentRecord] = []
+    @Relationship(deleteRule: .cascade) var assignments: [AssignmentModel] = []
     var startDate: Date
     var endDate: Date
     
