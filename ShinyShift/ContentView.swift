@@ -13,6 +13,7 @@ struct ContentView: View {
     @State private var columnVisibility =
         NavigationSplitViewVisibility.all
     @State private var selectedPage: String = "schedule"
+    @State private var selectedSchedule: ScheduleModel? = nil
 
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -20,11 +21,20 @@ struct ContentView: View {
                 Sidebar(selection: $selectedPage)
             } content: {
                 if selectedPage == "schedule" {
-                    ScheduleSidebar()
+                    ScheduleSidebar(selection: $selectedSchedule)
                 } else {
                     EmptyView()
                 }
             } detail: {
+                if selectedPage == "schedule" {
+                    if let schedule = selectedSchedule {
+                        DetailScheduleView(schedule: schedule)
+                    } else {
+                        Text("No schedule selected")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                    }
+                }
 
             }
         } else {

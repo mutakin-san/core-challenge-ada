@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ScheduleSidebar: View {
     @State private var showCreateScheduleSheet: Bool = false
-    @State private var selectedSchedule: ScheduleModel?
+    @Binding var selection: ScheduleModel?
 
     @Query var schedules: [ScheduleModel]
 
@@ -36,7 +36,7 @@ struct ScheduleSidebar: View {
 
     var body: some View {
         if schedules.isEmpty {
-            ScheduleEmptyView(selection: $selectedSchedule)
+            ScheduleEmptyView(selection: $selection)
         } else {
             VStack(alignment: .leading) {
                 Button {
@@ -54,7 +54,7 @@ struct ScheduleSidebar: View {
                 .popover(
                     isPresented: $showCreateScheduleSheet                ) {
                     CreateScheduleView { schedule in
-                        selectedSchedule = schedule
+                        selection = schedule
                     }
                 }
                 ScrollView(showsIndicators: false) {
@@ -62,10 +62,10 @@ struct ScheduleSidebar: View {
                         if let schedule = currentSchedule {
                             ScheduleListItem(
                                 schedule: schedule,
-                                isActive: selectedSchedule == schedule
+                                isActive: selection == schedule
                             )
                             .onTapGesture {
-                                selectedSchedule = schedule
+                                selection = schedule
                             }
                         }
 
@@ -78,10 +78,10 @@ struct ScheduleSidebar: View {
                                 schedule in
                                 ScheduleListItem(
                                     schedule: schedule,
-                                    isActive: selectedSchedule == schedule
+                                    isActive: selection == schedule
                                 )
                                 .onTapGesture {
-                                    selectedSchedule = schedule
+                                    selection = schedule
                                 }
                             }
                         }
@@ -95,10 +95,10 @@ struct ScheduleSidebar: View {
                                 schedule in
                                 ScheduleListItem(
                                     schedule: schedule,
-                                    isActive: selectedSchedule == schedule
+                                    isActive: selection == schedule
                                 )
                                 .onTapGesture {
-                                    selectedSchedule = schedule
+                                    selection = schedule
                                 }
                             }
 
@@ -114,5 +114,6 @@ struct ScheduleSidebar: View {
 }
 
 #Preview {
-    ScheduleSidebar()
+    @Previewable @State var selection: ScheduleModel? = nil
+    ScheduleSidebar(selection: $selection)
 }
