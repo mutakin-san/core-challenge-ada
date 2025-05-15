@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ScheduleEmptyView: View {
+    @Binding var selection: ScheduleModel?
     @State private var showAddScheduleSheet: Bool = false
     
     var body: some View {
@@ -38,7 +39,9 @@ struct ScheduleEmptyView: View {
             }
             .buttonStyle(.borderedProminent)
             .popover(isPresented: $showAddScheduleSheet) {
-                CreateScheduleView()
+                CreateScheduleView { schedule in
+                    selection = schedule
+                }
             }
         }
         .padding(.horizontal, 24)

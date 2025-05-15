@@ -123,10 +123,9 @@ struct GenerateScheduleView: View {
             modelContext: modelContext,
             rules: SchedulingRules(constraints: [.noRepeatArea(2), .noRepeatMember(2)])
         )
-        let result = scheduler.generateSchedule()
+        scheduler.generateSchedule()
         showConfigModal = false
         showingResult = true
-        print(result)
     }
 }
 

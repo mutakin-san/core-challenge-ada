@@ -30,7 +30,8 @@ class FlexibleScheduler {
     
     // Generate schedule with flexible parameters
     func generateSchedule(
-        startDate: Date = Date(), 
+        startDate: Date = Date(),
+        endDate: Date? = nil,
         numberOfAssignments: Int? = nil,
         customRules: SchedulingRules? = nil
     ) -> ScheduleModel {
@@ -43,6 +44,8 @@ class FlexibleScheduler {
         // Fetch recent history to apply constraints
         let recentHistory = fetchRecentHistory()
         
+        
+            
         var assignments: [Assignment] = []
         var availableMembers = Set(members)
         var availableAreas = Set(areas)
@@ -54,14 +57,13 @@ class FlexibleScheduler {
 
         // Start date
         let startString = dateFormatter.string(from: startDate)
-
-        // 2 weeks (14 days) after start date
-        let endDate = Calendar.current.date(byAdding: .day, value: 14, to: startDate) ?? startDate
-        let endString = dateFormatter.string(from: endDate)
+        let tempEndDate = endDate ?? Calendar.current.date(byAdding: .day, value: 14, to: startDate) ?? startDate
+        
+        
+        
+        let endString = dateFormatter.string(from: tempEndDate)
         
         let scheduleId = "Jadwal: \(startString) - \(endString)"
-        
-
         
         // Calculate preference scores based on coverage strategy
         var memberScores = calculateMemberScores(
@@ -136,7 +138,7 @@ class FlexibleScheduler {
         }
         
         // Save assignments to history
-        return saveSchedule(scheduleId: scheduleId, startDate: startDate, endDate: endDate, assignments: assignments)
+        return saveSchedule(scheduleId: scheduleId, startDate: startDate, endDate: tempEndDate, assignments: assignments)
     }
     
     // Find the best assignment considering multiple constraints
