@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct ScheduleSidebar: View {
+struct ScheduleListContent: View {
     @State private var showCreateScheduleSheet: Bool = false
     @Binding var selection: ScheduleModel?
 
@@ -118,5 +118,5 @@ struct ScheduleSidebar: View {
 
 #Preview {
     @Previewable @State var selection: ScheduleModel? = nil
-    ScheduleSidebar(selection: $selection)
+    ScheduleListContent(selection: $selection)
 }

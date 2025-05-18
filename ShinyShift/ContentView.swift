@@ -21,7 +21,7 @@ struct ContentView: View {
                 Sidebar(selection: $selectedPage)
             } content: {
                 if selectedPage == "schedule" {
-                    ScheduleSidebar(selection: $selectedSchedule)
+                    ScheduleListContent(selection: $selectedSchedule)
                 } else {
                     EmptyView()
                 }

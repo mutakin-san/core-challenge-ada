@@ -31,3 +31,8 @@ struct SidebarItem: View {
         .foregroundStyle(isActive ? .white : .accent)
     }
 }
+
+
+#Preview {
+    SidebarItem(isActive: false, text: "Home", systemImage: "house")
+}

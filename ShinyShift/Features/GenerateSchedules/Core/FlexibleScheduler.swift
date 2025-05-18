@@ -63,7 +63,7 @@ class FlexibleScheduler {
         
         let endString = dateFormatter.string(from: tempEndDate)
         
-        let scheduleId = "Jadwal: \(startString) - \(endString)"
+        let scheduleId = "\(startString) - \(endString)"
         
         // Calculate preference scores based on coverage strategy
         var memberScores = calculateMemberScores(
