@@ -19,11 +19,13 @@ struct ScheduleSidebar: View {
     }
 
     var upcomingSchedule: [ScheduleModel] {
-        let today = Calendar.current.startOfDay(for: Date())
+        let dayOfCurrentSchedule = Calendar.current.startOfDay(
+            for: currentSchedule?.startDate ?? Date())
         return
             schedules
             .filter {
-                Calendar.current.startOfDay(for: $0.startDate) > today
+                Calendar.current.startOfDay(for: $0.startDate)
+                    > dayOfCurrentSchedule
             }
             .sorted(by: { $0.startDate < $1.startDate })
     }
@@ -52,14 +54,47 @@ struct ScheduleSidebar: View {
                 .buttonStyle(.borderedProminent)
                 .padding(.bottom, 16)
                 .popover(
-                    isPresented: $showCreateScheduleSheet                ) {
+                    isPresented: $showCreateScheduleSheet
+                ) {
                     CreateScheduleView { schedule in
                         selection = schedule
                     }
                 }
-                ScrollView(showsIndicators: false) {
-                    LazyVStack(alignment: .leading, spacing: 16) {
-                        if let schedule = currentSchedule {
+                List {
+                    if let schedule = currentSchedule {
+                        ScheduleListItem(
+                            schedule: schedule,
+                            isActive: selection == schedule
+                        )
+                        .onTapGesture {
+                            selection = schedule
+                        }
+                    }
+
+                    if !upcomingSchedule.isEmpty {
+                        Text("Upcoming Schedules")
+                            .padding(.top, 16)
+                        ForEach(
+                            upcomingSchedule, id: \.self
+                        ) {
+                            schedule in
+                            ScheduleListItem(
+                                schedule: schedule,
+                                isActive: selection == schedule
+                            )
+                            .onTapGesture {
+                                selection = schedule
+                            }
+                        }
+                    }
+
+                    if !completedSchedule.isEmpty {
+                        Text("Completed Schedules")
+                            .padding(.top, 16)
+                        ForEach(
+                            completedSchedule, id: \.self
+                        ) {
+                            schedule in
                             ScheduleListItem(
                                 schedule: schedule,
                                 isActive: selection == schedule
@@ -69,44 +104,12 @@ struct ScheduleSidebar: View {
                             }
                         }
 
-                        if !upcomingSchedule.isEmpty {
-                            Text("Upcoming Schedules")
-                                .padding(.top, 16)
-                            ForEach(
-                                upcomingSchedule, id: \.self
-                            ) {
-                                schedule in
-                                ScheduleListItem(
-                                    schedule: schedule,
-                                    isActive: selection == schedule
-                                )
-                                .onTapGesture {
-                                    selection = schedule
-                                }
-                            }
-                        }
-
-                        if !completedSchedule.isEmpty {
-                            Text("Completed Schedules")
-                                .padding(.top, 16)
-                            ForEach(
-                                completedSchedule, id: \.self
-                            ) {
-                                schedule in
-                                ScheduleListItem(
-                                    schedule: schedule,
-                                    isActive: selection == schedule
-                                )
-                                .onTapGesture {
-                                    selection = schedule
-                                }
-                            }
-
-                        }
-
                     }
+
                 }
-                Spacer()
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+
             }
             .padding(.horizontal, 24)
         }

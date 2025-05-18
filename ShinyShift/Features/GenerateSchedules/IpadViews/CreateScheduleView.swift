@@ -15,6 +15,7 @@ struct CreateScheduleView: View {
     @State private var endDate = Date()
     @State private var emptyActiveMemberError: Bool = false
     @State private var overlappingError: Bool = false
+    @State private var invalidDateRangeError: Bool = false
     @Environment(\.dismiss) private var dismiss: DismissAction
     
     @Query var members: [Member]
@@ -23,14 +24,6 @@ struct CreateScheduleView: View {
     }
     
     @Environment(\.modelContext) var modelContext
-    
-    let areas = [
-        "SML", "GOP 6", "GOP 1", "Gardu", "GOP 9",
-        "Gate 1", "Gate 2", "Marketing", "Pucuk Merah",
-        "Parkiran", "GOP 5", "Green Bell",
-        "Sampah Gantung", "Mobile", "Mobile 2"
-    ]
-    
     
     func isOverlappingWithRecentHistory(newStart: Date, newEnd: Date) -> Bool {
         let fetchDescriptor = FetchDescriptor<ScheduleModel>(
@@ -61,10 +54,17 @@ struct CreateScheduleView: View {
         }
 
         
+        let dayOfStartDate = Calendar.current.component(.day, from: startDate)
+        let dayOfEndDate = Calendar.current.component(.day, from: endDate)
+        if startDate >= endDate || dayOfStartDate >= dayOfEndDate {
+            invalidDateRangeError = true
+            return
+        }
+        
         
         let scheduler = FlexibleScheduler(
             members: activeMembers,
-            areas: areas,
+            areas: Areas.all,
             modelContext: modelContext,
             rules: SchedulingRules(constraints: [.noRepeatArea(2), .noRepeatMember(2)])
         )
@@ -137,6 +137,13 @@ struct CreateScheduleView: View {
                 }
             } message: {
                 Text("Please ensure the date range outside of any existing schedule.")
+            }
+            .alert("Invalid Date Range", isPresented: $invalidDateRangeError) {
+                Button("Ok") {
+                    invalidDateRangeError = false
+                }
+            } message: {
+                Text("Please ensure the date range is valid.")
             }
 
         }

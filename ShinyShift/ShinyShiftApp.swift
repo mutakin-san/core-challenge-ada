@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import AppIntents
 
 @main
 struct ShinyShiftApp: App {
@@ -31,6 +32,7 @@ struct ShinyShiftApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-        }.modelContainer(sharedModelContainer)
+        }
+        .modelContainer(sharedModelContainer)
     }
 }
