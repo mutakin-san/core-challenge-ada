@@ -9,10 +9,12 @@ import SwiftData
 import SwiftUI
 
 struct ScheduleListContent: View {
-    @State private var showCreateScheduleSheet: Bool = false
+    @State private var showCreateSchedulePopover: Bool = false
     @Binding var selection: ScheduleModel?
 
     @Query var schedules: [ScheduleModel]
+    @Environment(\.modelContext) var modelContext
+
 
     var currentSchedule: ScheduleModel? {
         schedules.first(where: { $0.endDate > Date() })
@@ -35,6 +37,18 @@ struct ScheduleListContent: View {
             $0.endDate > $1.endDate
         }
     }
+    
+    func deleteSchedule(_ schedule: ScheduleModel) {
+        withAnimation {
+            modelContext.delete(schedule)
+            do{
+                try modelContext.save()
+                selection = nil
+            }catch{
+                print("Error deleting member")
+            }
+        }
+    }
 
     var body: some View {
         if schedules.isEmpty {
@@ -42,7 +56,7 @@ struct ScheduleListContent: View {
         } else {
             VStack(alignment: .leading) {
                 Button {
-                    showCreateScheduleSheet = !showCreateScheduleSheet
+                    showCreateSchedulePopover.toggle()
                 } label: {
                     Label("New Schedule", systemImage: "plus.square")
                         .foregroundStyle(.white)
@@ -54,7 +68,7 @@ struct ScheduleListContent: View {
                 .buttonStyle(.borderedProminent)
                 .padding(.bottom, 16)
                 .popover(
-                    isPresented: $showCreateScheduleSheet
+                    isPresented: $showCreateSchedulePopover
                 ) {
                     CreateScheduleView { schedule in
                         selection = schedule
@@ -64,7 +78,8 @@ struct ScheduleListContent: View {
                     if let schedule = currentSchedule {
                         ScheduleListItem(
                             schedule: schedule,
-                            isActive: selection == schedule
+                            isActive: selection == schedule,
+                            onDelete: deleteSchedule
                         )
                         .onTapGesture {
                             selection = schedule
@@ -73,14 +88,15 @@ struct ScheduleListContent: View {
 
                     if !upcomingSchedule.isEmpty {
                         Text("Upcoming Schedules")
-                            .padding(.top, 16)
+                            .listRowInsets(EdgeInsets())
                         ForEach(
                             upcomingSchedule, id: \.self
                         ) {
                             schedule in
                             ScheduleListItem(
                                 schedule: schedule,
-                                isActive: selection == schedule
+                                isActive: selection == schedule,
+                                onDelete: deleteSchedule
                             )
                             .onTapGesture {
                                 selection = schedule
@@ -90,14 +106,15 @@ struct ScheduleListContent: View {
 
                     if !completedSchedule.isEmpty {
                         Text("Completed Schedules")
-                            .padding(.top, 16)
+                            .listRowInsets(EdgeInsets())
                         ForEach(
                             completedSchedule, id: \.self
                         ) {
                             schedule in
                             ScheduleListItem(
                                 schedule: schedule,
-                                isActive: selection == schedule
+                                isActive: selection == schedule,
+                                onDelete: deleteSchedule
                             )
                             .onTapGesture {
                                 selection = schedule
@@ -109,7 +126,6 @@ struct ScheduleListContent: View {
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
-
             }
             .padding(.horizontal, 24)
         }

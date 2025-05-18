@@ -22,9 +22,9 @@ enum ShiftType: String, Codable {
 
 
 extension Date {
-    func formatDate() -> String {
+    func formatDate(_ format: String = "dd MMM yyyy") -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.dateFormat = format
         return formatter.string(from: self)
     }
 }

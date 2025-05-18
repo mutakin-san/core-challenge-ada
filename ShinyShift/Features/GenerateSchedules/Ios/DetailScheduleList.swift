@@ -44,14 +44,6 @@ struct DetailScheduleList: View {
                 .labelStyle(.iconOnly)
             }
         }
-        
-        
-        
-        
-        
-        
-        
-        
     }
 }
 

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ScheduleEmptyView: View {
     @Binding var selection: ScheduleModel?
-    @State private var showAddScheduleSheet: Bool = false
+    @State private var showCreateSchedulePopover: Bool = false
     
     var body: some View {
         VStack {
@@ -28,7 +28,7 @@ struct ScheduleEmptyView: View {
                 .padding(.bottom, 10)
                 .foregroundStyle(.secondary)
             Button {
-                showAddScheduleSheet = true
+                showCreateSchedulePopover = true
             } label: {
                 Label("New Schedule", systemImage: "plus.square")
                     .foregroundStyle(.white)
@@ -38,7 +38,7 @@ struct ScheduleEmptyView: View {
                     .padding()
             }
             .buttonStyle(.borderedProminent)
-            .popover(isPresented: $showAddScheduleSheet) {
+            .popover(isPresented: $showCreateSchedulePopover) {
                 CreateScheduleView { schedule in
                     selection = schedule
                 }

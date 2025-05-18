@@ -10,18 +10,12 @@ import SwiftUI
 struct ScheduleListItem: View {
     let schedule: ScheduleModel
     let isActive: Bool
-    @Environment(\.modelContext) var modelContext
+    let onDelete: (ScheduleModel) -> Void
     
-    func formatDate(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMM yyyy"
-        return dateFormatter.string(from: date)
-    }
-
     var body: some View {
         HStack(alignment: .center) {
             VStack(alignment: .leading) {
-                Text("\(formatDate(schedule.startDate)) - \(formatDate(schedule.endDate))")
+                Text("\(schedule.startDate.formatDate()) - \(schedule.endDate.formatDate())")
                     .fontWeight(.medium)
                 Text("\(schedule.assignments.count) assignments")
                     .font(.caption)
@@ -44,16 +38,11 @@ struct ScheduleListItem: View {
         .listRowInsets(.init(top: 0, leading: 0, bottom: 8, trailing: 0))
         .swipeActions(edge: .leading, allowsFullSwipe: false) {
             return Button(role: .destructive) {
-                modelContext.delete(schedule)
-                do{
-                    try modelContext.save()
-                }catch{
-                    print("Error deleting member")
-                }
+                onDelete(schedule)
             } label : {
                 VStack {
                     Image(systemName: "trash.fill")
-                    Text("Hapus")
+                    Text("Delete")
                 }
             }
             .tint(.red)

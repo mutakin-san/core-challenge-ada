@@ -6,7 +6,7 @@ struct GenerateScheduleIntent: AppIntent {
     static var title: LocalizedStringResource = "Generate Schedule"
     static var description: IntentDescription = IntentDescription(
         "Generate a schedule between two dates")
-    
+
     static var openAppWhenRun: Bool = false
 
     @Parameter(title: "Start Date")
@@ -32,16 +32,43 @@ struct GenerateScheduleIntent: AppIntent {
         }
     }()
 
+    func isOverlappingWithRecentHistory(
+        modelContext: ModelContext, newStart: Date, newEnd: Date
+    ) -> Bool {
+        let fetchDescriptor = FetchDescriptor<ScheduleModel>(
+            sortBy: [SortDescriptor(\.startDate, order: .reverse)]
+        )
+
+        do {
+            let recentHistory = try modelContext.fetch(fetchDescriptor).map {
+                $0
+            }
+            return recentHistory.contains { history in
+                newStart < history.endDate && newEnd > history.startDate
+            }
+        } catch {
+            print("Error fetching history: \(error)")
+            return false
+        }
+
+    }
+
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog
         & ShowsSnippetView
     {
-        // Validate dates
-        guard endDate >= startDate else {
+        if isOverlappingWithRecentHistory(
+            modelContext: sharedModelContainer.mainContext, newStart: startDate,
+            newEnd: endDate)
+        {
             throw Error.invalidDateRange
         }
 
-        // Get model context
+        let dayOfStartDate = Calendar.current.component(.day, from: startDate)
+        let dayOfEndDate = Calendar.current.component(.day, from: endDate)
+        if startDate >= endDate || dayOfStartDate >= dayOfEndDate {
+            throw Error.invalidDateRange
+        }
 
         // Fetch all members using SwiftData
         let membersFetchDescriptor = FetchDescriptor<Member>()
@@ -70,60 +97,81 @@ struct GenerateScheduleIntent: AppIntent {
             endDate: endDate
         )
 
-        // Convert ScheduleModel to ScheduleItems for display
-        let scheduleItems = schedule.assignments.map { assignment in
-            ScheduleItem(
-                date: assignment.date,
-                description:
-                    "\(assignment.member.name) - \(assignment.area) (\(assignment.shiftType.rawValue))"
-            )
-        }
-
         // Return result with custom view
-        return .result(dialog: "Schedule generated for \(schedule.startDate.formatDate()) to \(schedule.endDate.formatDate())")
-        {
-            ScheduleSnippetView(schedule: scheduleItems)
+        return .result(
+            dialog:
+                "Schedule generated for \(schedule.startDate.formatDate()) to \(schedule.endDate.formatDate())"
+        ) {
+            ScheduleSnippetView(schedule: schedule)
         }
     }
 
-    enum Error: Swift.Error {
+    enum Error: Swift.Error, CustomLocalizedStringResourceConvertible {
         case invalidDateRange
         case modelContextError
         case noMembersFound
+
+        var localizedStringResource: LocalizedStringResource {
+            switch self {
+            case .invalidDateRange: return "Please choose valid date range"
+            case .noMembersFound: return "No members found"
+            case .modelContextError:
+                return "Something went wrong, please try again"
+            }
+        }
     }
 }
 
 // View to display the schedule result
 struct ScheduleSnippetView: View {
-    let schedule: [ScheduleItem]
+    let schedule: ScheduleModel
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Generated Schedule")
-                .font(.headline)
-
-            ForEach(schedule.sorted(by: { $0.date < $1.date })) { item in
-                VStack(alignment: .leading) {
+        LazyVStack(alignment: .leading, spacing: 10) {
+            Section(
+                header: Text("Morning Shift 06.00 - 15.00 WIB")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            ) {
+                ForEach(
+                    schedule.assignments.filter({ assignment in
+                        assignment.shiftType == ShiftType.morning
+                    })
+                ) { item in
                     Text(
-                        item.date.formatted(date: .abbreviated, time: .omitted)
+                        "\(item.member.name) - \(item.area)"
                     )
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    Text(item.description)
-                        .font(.body)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .overlay(content: {
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(style: StrokeStyle(lineWidth: 1))
+                    })
                 }
-                .padding(.vertical, 4)
             }
+            Section(
+                header: Text("Afternoon Shift 08.00 - 17.00 WIB")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            ) {
+                ForEach(
+                    schedule.assignments.filter({ assignment in
+                        assignment.shiftType == ShiftType.afternoon
+                    })
+                ) { item in
+                    Text(
+                        "\(item.member.name) - \(item.area)"
+                    )
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .overlay(content: {
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(style: StrokeStyle(lineWidth: 1))
+                    })
+                }
+            }
+
         }
         .padding()
     }
-}
-
-// Define the schedule item model
-struct ScheduleItem: Identifiable {
-    let id = UUID()
-    let date: Date
-    let description: String
 }
 
 struct AppIntentShortcutProvider: AppShortcutsProvider {
@@ -132,7 +180,7 @@ struct AppIntentShortcutProvider: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
             intent: GenerateScheduleIntent(),
-            phrases: ["Generate schedule in \(.applicationName)"],
+            phrases: ["Generate schedule in \(.applicationName)", "Generate Schedule"],
             shortTitle: "Generate Schedule", systemImageName: "wand.and.rays")
 
     }
