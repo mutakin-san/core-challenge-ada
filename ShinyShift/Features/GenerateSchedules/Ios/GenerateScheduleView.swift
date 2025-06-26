@@ -42,7 +42,7 @@ struct GenerateScheduleView: View {
             VStack {
                 // Header
                 VStack(alignment: .leading) {
-                    Text("Halo, Subur!")
+                    Text("Halo!")
                         .font(.title)
                         .fontWeight(.bold)
                     
