@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 struct HistoryView: View {
-    @Query(sort: \Schedule.persistentModelID, order: .reverse) var schedules: [Schedule]
+    @Query(sort: \ScheduleModel.persistentModelID, order: .reverse) var schedules: [ScheduleModel]
     @Environment(\.modelContext) var modelContext
     @State var showDeleteAlert = false
     @State var indexSetToDelete: IndexSet? = nil

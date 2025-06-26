@@ -30,10 +30,11 @@ class FlexibleScheduler {
     
     // Generate schedule with flexible parameters
     func generateSchedule(
-        startDate: Date = Date(), 
+        startDate: Date = Date(),
+        endDate: Date? = nil,
         numberOfAssignments: Int? = nil,
         customRules: SchedulingRules? = nil
-    ) -> Schedule {
+    ) -> ScheduleModel {
         // Use custom rules if provided, otherwise use default
         let activeRules = customRules ?? rules
         
@@ -43,6 +44,8 @@ class FlexibleScheduler {
         // Fetch recent history to apply constraints
         let recentHistory = fetchRecentHistory()
         
+        
+            
         var assignments: [Assignment] = []
         var availableMembers = Set(members)
         var availableAreas = Set(areas)
@@ -54,14 +57,13 @@ class FlexibleScheduler {
 
         // Start date
         let startString = dateFormatter.string(from: startDate)
-
-        // 2 weeks (14 days) after start date
-        let endDate = Calendar.current.date(byAdding: .day, value: 14, to: startDate) ?? startDate
-        let endString = dateFormatter.string(from: endDate)
+        let tempEndDate = endDate ?? Calendar.current.date(byAdding: .day, value: 14, to: startDate) ?? startDate
         
-        let scheduleId = "Jadwal: \(startString) - \(endString)"
         
-
+        
+        let endString = dateFormatter.string(from: tempEndDate)
+        
+        let scheduleId = "\(startString) - \(endString)"
         
         // Calculate preference scores based on coverage strategy
         var memberScores = calculateMemberScores(
@@ -136,7 +138,7 @@ class FlexibleScheduler {
         }
         
         // Save assignments to history
-        return saveSchedule(scheduleId: scheduleId, startDate: startDate, endDate: endDate, assignments: assignments)
+        return saveSchedule(scheduleId: scheduleId, startDate: startDate, endDate: tempEndDate, assignments: assignments)
     }
     
     // Find the best assignment considering multiple constraints
@@ -145,7 +147,7 @@ class FlexibleScheduler {
         availableAreas: Set<String>,
         currentAssignments: [Assignment],
         memberScores: inout [String: Int],
-        recentHistory: [AssignmentRecord],
+        recentHistory: [AssignmentModel],
         rules: SchedulingRules,
         startDate: Date
     ) -> (member: Member, area: String, score: Double)? {
@@ -180,7 +182,7 @@ class FlexibleScheduler {
         member: Member,
         area: String,
         currentAssignments: [Assignment],
-        recentHistory: [AssignmentRecord],
+        recentHistory: [AssignmentModel],
         rules: SchedulingRules,
         startDate: Date,
         memberScores: [String: Int]
@@ -244,8 +246,8 @@ class FlexibleScheduler {
     }
     
     // Fetch recent historical assignments
-    private func fetchRecentHistory(limit: Int = 100) -> [AssignmentRecord] {
-        let fetchDescriptor = FetchDescriptor<AssignmentRecord>(
+    private func fetchRecentHistory(limit: Int = 100) -> [AssignmentModel] {
+        let fetchDescriptor = FetchDescriptor<AssignmentModel>(
             sortBy: [SortDescriptor(\.date, order: .reverse)]
         )
         
@@ -259,7 +261,7 @@ class FlexibleScheduler {
     
     // Calculate initial member scores based on coverage strategy
     private func calculateMemberScores(
-        history: [AssignmentRecord], 
+        history: [AssignmentModel], 
         strategy: CoverageStrategy
     ) -> [String: Int] {
         switch strategy {
@@ -283,9 +285,9 @@ class FlexibleScheduler {
     }
     
     // Save assignments to database
-    private func saveSchedule(scheduleId: String, startDate: Date, endDate: Date, assignments: [Assignment]) -> Schedule {
-        let assignmentRecords: [AssignmentRecord] = assignments.map { assignment in
-            AssignmentRecord(
+    private func saveSchedule(scheduleId: String, startDate: Date, endDate: Date, assignments: [Assignment]) -> ScheduleModel {
+        let assignmentRecords: [AssignmentModel] = assignments.map { assignment in
+            AssignmentModel(
                 member: assignment.member,
                 area: assignment.area,
                 scheduleId: assignment.scheduleId, 
@@ -294,7 +296,7 @@ class FlexibleScheduler {
             )
         }
         
-        let schedule = Schedule(scheduleId: scheduleId, startDate: startDate, endDate: endDate)
+        let schedule = ScheduleModel(scheduleId: scheduleId, startDate: startDate, endDate: endDate)
         schedule.assignments.append(contentsOf: assignmentRecords)
         modelContext.insert(schedule)
 

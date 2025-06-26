@@ -8,12 +8,12 @@ import Foundation
 import SwiftData
 
 @Model
-class Member {
+class Member: Hashable {
     var imagePath: String
     @Attribute(.unique) var name: String
     var phone: String
     var address: String
-    var status: Bool
+    @Transient var status: Bool = true
     init(imagePath: String = "ProfilePicture", name: String, phone: String, address: String, status: Bool = true) {
         self.imagePath = imagePath
         self.name = name

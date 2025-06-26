@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailScheduleList: View {
-    let schedule: Schedule
+    let schedule: ScheduleModel
     
     var body: some View {
         List {
@@ -44,25 +44,17 @@ struct DetailScheduleList: View {
                 .labelStyle(.iconOnly)
             }
         }
-        
-        
-        
-        
-        
-        
-        
-        
     }
 }
 
 #Preview {
-    let schedule: Schedule = Schedule(scheduleId: "Schedule: 13 March", startDate: Date(), endDate: Date())
+    let schedule: ScheduleModel = ScheduleModel(scheduleId: "Schedule: 13 March", startDate: Date(), endDate: Date())
     DetailScheduleList(schedule: schedule)
 }
 
 struct DetailScheduleCard: View {
     
-    let item: AssignmentRecord
+    let item: AssignmentModel
     
     var body: some View {
         

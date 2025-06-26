@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AssignmentCard: View {
-    let assignment: AssignmentRecord
+    let assignment: AssignmentModel
     let areas: [String]
     let editMode: Bool
     let handleSwapArea: (_ newValue: String) -> Void

@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 struct CurrentScheduleView: View {
-    let currentSchedule: Schedule?
+    let currentSchedule: ScheduleModel?
     let areas: [String]
     
     @State private var selection = "SML"
@@ -18,7 +18,7 @@ struct CurrentScheduleView: View {
     @Environment(\.modelContext) var modelContext
     
     
-    private func swapArea(to newValue: String,from assignment: AssignmentRecord) -> Void {
+    private func swapArea(to newValue: String,from assignment: AssignmentModel) -> Void {
         if let swapAssignment = currentSchedule?.assignments.first(where: { $0.area == newValue }) {
             let temp = assignment.area
             assignment.area = swapAssignment.area

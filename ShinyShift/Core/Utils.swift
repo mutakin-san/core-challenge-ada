@@ -5,6 +5,8 @@
 //  Created by Mutakin on 27/03/25.
 //
 
+import Foundation
+
 // Enum to define shift types
 enum ShiftType: String, Codable {
     case morning
@@ -18,6 +20,14 @@ enum ShiftType: String, Codable {
     }
 }
 
+
+extension Date {
+    func formatDate(_ format: String = "dd MMM yyyy") -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: self)
+    }
+}
 
 // Enum to represent different scheduling constraints
 enum SchedulingConstraintType {
@@ -41,8 +51,8 @@ enum CoverageStrategy {
 }
 
 
-extension Schedule {
-    func sortByShift() -> [AssignmentRecord] {
+extension ScheduleModel {
+    func sortByShift() -> [AssignmentModel] {
         return self.assignments.sorted(by: {
             $0.shiftType.description < $1.shiftType.description
         })

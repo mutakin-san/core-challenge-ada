@@ -2,8 +2,8 @@ import SwiftData
 import Foundation
 
 @Model
-class AssignmentRecord {
-    @Relationship(deleteRule: .nullify) var member: Member
+class AssignmentModel {
+    @Relationship(deleteRule: .noAction) var member: Member
     var area: String
     var scheduleId: String
     var date: Date

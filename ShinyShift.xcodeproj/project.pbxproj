@@ -11,9 +11,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		A4DE03A92D93A69B00EDAA71 /* CleanPlot */ = {
+		A4DE03A92D93A69B00EDAA71 /* ShinyShift */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = CleanPlot;
+			path = ShinyShift;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		A4DE039E2D93A69B00EDAA71 = {
 			isa = PBXGroup;
 			children = (
-				A4DE03A92D93A69B00EDAA71 /* CleanPlot */,
+				A4DE03A92D93A69B00EDAA71 /* ShinyShift */,
 				A4DE03A82D93A69B00EDAA71 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,7 +61,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				A4DE03A92D93A69B00EDAA71 /* CleanPlot */,
+				A4DE03A92D93A69B00EDAA71 /* ShinyShift */,
 			);
 			name = ShinyShift;
 			packageProductDependencies = (
@@ -251,7 +251,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"CleanPlot/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"ShinyShift/Preview Content\"";
 				DEVELOPMENT_TEAM = 3B34Y73YV3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -282,7 +282,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"CleanPlot/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"ShinyShift/Preview Content\"";
 				DEVELOPMENT_TEAM = 3B34Y73YV3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
