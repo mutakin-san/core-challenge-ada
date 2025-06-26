@@ -180,7 +180,7 @@ struct AppIntentShortcutProvider: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
             intent: GenerateScheduleIntent(),
-            phrases: ["Generate schedule in \(.applicationName)", "Generate Schedule"],
+            phrases: ["Generate schedule in \(.applicationName)", "Create Schedule on \(.applicationName)"],
             shortTitle: "Generate Schedule", systemImageName: "wand.and.rays")
 
     }
