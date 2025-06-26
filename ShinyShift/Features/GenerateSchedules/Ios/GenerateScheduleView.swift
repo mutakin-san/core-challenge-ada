@@ -12,6 +12,7 @@ struct GenerateScheduleView: View {
     @State var indexSetToDelete: IndexSet? = nil
     
     @Query var members: [Member]
+    @Query(sort: \AreaModel.name) var areaModels: [AreaModel]
     private var activeMembers: [Member] {
         members.filter { $0.status }
     }
@@ -29,13 +30,6 @@ struct GenerateScheduleView: View {
     @State var showingGenerateAlert: Bool = false
     @State var showingResult = false
     @State var alertMessage: String = "Terjadi masalah! silahkan coba lagi."
-    
-    let areas = [
-        "SML", "GOP 6", "GOP 1", "Gardu", "GOP 9",
-        "Gate 1", "Gate 2", "Marketing", "Pucuk Merah",
-        "Parkiran", "GOP 5", "Green Bell",
-        "Sampah Gantung", "Mobile", "Mobile 2"
-    ]
     
     var body: some View {
         NavigationStack {
@@ -68,7 +62,7 @@ struct GenerateScheduleView: View {
                 Group {
                     switch selectedSegment {
                     case 0:
-                        CurrentScheduleView(currentSchedule: currentSchedule, areas: areas)
+                        CurrentScheduleView(currentSchedule: currentSchedule, areas: areaModels.map { $0.name })
                     case 1:
                         ScheduleHistoryView(
                             scheduleHistories: scheduleHistories,
@@ -119,7 +113,7 @@ struct GenerateScheduleView: View {
         }
         let scheduler = FlexibleScheduler(
             members: activeMembers,
-            areas: areas,
+            areas: areaModels.map { $0.name },
             modelContext: modelContext,
             rules: SchedulingRules(constraints: [.noRepeatArea(2), .noRepeatMember(2)])
         )

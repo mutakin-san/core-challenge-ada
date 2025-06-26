@@ -45,6 +45,9 @@ struct ContentView: View {
                 Tab("Tim", systemImage: "person.2") {
                     MemberView()
                 }
+                Tab("Area", systemImage: "square.grid.2x2") {
+                    AreaManagementView()
+                }
             }
         }
     }

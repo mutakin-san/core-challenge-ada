@@ -13,7 +13,8 @@ import AppIntents
 struct ShinyShiftApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            ScheduleModel.self
+            ScheduleModel.self,
+            AreaModel.self,
         ])
         
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)

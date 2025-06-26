@@ -21,3 +21,12 @@ class AssignmentModel {
         return "\(member.name) - \(area)"
     }
 }
+
+@Model
+final class AreaModel: Identifiable {
+    @Attribute(.unique) var name: String
+    
+    init(name: String) {
+        self.name = name
+    }
+}
